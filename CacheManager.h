@@ -37,7 +37,7 @@ class CacheManager {
   CacheManager(int capacity);
   void insert(string key, T obj);
   void writeToDisk(T *obj, string fileName);
-  int isExist(T object);
+  int isExist(T key);
   T get(string key);
   void foreach(void (*func)(T &));
   ~CacheManager() {};

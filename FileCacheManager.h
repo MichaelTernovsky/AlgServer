@@ -6,9 +6,12 @@
 #define EX4__FILECACHEMANAGER_H_
 
 #include "CacheManager.h"
-template<typename T>
-class FileCacheManager : CacheManager<T> {
+#include "Solver.h"
 
+template<typename P, typename S>
+class FileCacheManager : CacheManager<Solver<P, S>> {
+  Solver<P, S> findSolution(string str);
 };
+
 
 #endif //EX4__FILECACHEMANAGER_H_
