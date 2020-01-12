@@ -8,7 +8,8 @@
 #include <thread>
 #include <netinet/in.h>
 #include <unistd.h>
-
+#include "AlgServer.h"
+using namespace server_side;
 int client_socket;
 
 class MySerialServer : Server{
@@ -49,20 +50,29 @@ class MySerialServer : Server{
     } else {
       std::cout << "Server is now listening ..." << std::endl;
     }
-    // accepting a client
-    client_socket = accept(socketfd, (struct sockaddr *) &address,
-                           (socklen_t *) &address);
 
-    if (client_socket == -1) {
-      std::cerr << "Error accepting client" << std::endl;
-      //return -4;
-      exit(1);
-    }
-    client_handler.handleClient();
-    close(socketfd); //closing the listening socket
 
-    while (true) {
+    while (true) { //need to change it to other condition
 
+      // accepting a client
+      client_socket = accept(socketfd, (struct sockaddr *) &address,
+                             (socklen_t *) &address);
+
+      if (client_socket == -1) {
+        std::cerr << "Error accepting client" << std::endl;
+        //return -4;
+        exit(1);
+      }
+
+    client_handler.handleClient(new SocketInputStream (client_socket), new SocketOutputStream (client_socket));
+      ///////////
+      /////////
+      //////////  17:03 12/1 continue here after implement write&read function at SockStream.h
+      /////////
+      ////////////
+      ///////////
+      /////////
+      close(socketfd); //closing the listening socket
 
       }
     }
@@ -75,7 +85,6 @@ class MySerialServer : Server{
     thread ServerThread(&MySerialServer::runExucteMethosAsThread,this,port, c);
     ServerThread.detach();
     while (!client_socket) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   }

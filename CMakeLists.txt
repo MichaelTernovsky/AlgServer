@@ -3,4 +3,4 @@ project(Ex4)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(Ex4 main.cpp CacheManager.cpp CacheManager.h ClientHandler.cpp ClientHandler.h FileCacheManager.cpp FileCacheManager.h MyTestClientHandler.cpp MyTestClientHandler.h Server.cpp Server.h MySerialServer.cpp MySerialServer.h Solver.cpp Solver.h StringReverser.cpp StringReverser.h)
+add_executable(Ex4 main.cpp CacheManager.cpp CacheManager.h FileCacheManager.cpp FileCacheManager.h MyTestClientHandler.cpp MyTestClientHandler.h Server.cpp Server.h MySerialServer.cpp MySerialServer.h Solver.cpp Solver.h StringReverser.cpp StringReverser.h AlgServer.cpp AlgServer.h SockStreams.cpp SockStreams.h)
