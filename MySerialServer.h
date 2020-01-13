@@ -4,7 +4,6 @@
 #ifndef EX4__MYSERIALSERVER_H_
 #define EX4__MYSERIALSERVER_H_
 #include "Server.h"
-#include "ClientHandler.h"
 #include <thread>
 #include <netinet/in.h>
 #include <unistd.h>
