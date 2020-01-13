@@ -4,10 +4,10 @@
 
 #ifndef EX4__MYTESTCLIENTHANDLER_H_
 #define EX4__MYTESTCLIENTHANDLER_H_
-
-#include "ClientHandler.h"
 #include "Solver.h"
 #include "CacheManager.h"
+#include "Server.h"
+using namespace server_side;
 
 template<typename P, typename S>
 class MyTestClientHandler : public ClientHandler {

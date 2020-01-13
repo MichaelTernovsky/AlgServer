@@ -22,7 +22,7 @@ class SocketOutputStream : public OutPutStream {
   SocketOutputStream(int soc) {
     this->socket = soc;
   }
-  virtual bool writeToStream(string &str);
+  virtual bool writeToStream(string str);
 };
 
 //socket inputStream

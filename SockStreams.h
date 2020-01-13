@@ -6,7 +6,7 @@
 #define EX4__SOCKSTREAMS_H_
 #include "AlgServer.h"
 
-bool SocketOutputStream::writeToStream(string &str) {
+bool SocketOutputStream::writeToStream(string str) {
 
 }
 

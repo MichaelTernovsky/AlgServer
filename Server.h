@@ -5,32 +5,31 @@
 #ifndef EX4__SERVER_H_
 #define EX4__SERVER_H_
 
-#include "ClientHandler.h"
-
+using namespace std;
+#include <string>
 namespace server_side {
 // Interfaces
 
 
 class InputStream {
  public:
-  virtual string readFromStream() =0;
+  virtual string readFromStream() = 0;
 };
 
-class OutPutStream{
+class OutPutStream {
  public:
-  virtual bool writeToStream(string &str) =0;
+  virtual bool writeToStream(string str) = 0;
 };
 
 class ClientHandler {
  public:
-  virtual void handleClient(InputStream* input_stream, OutPutStream* out_put_stream)=0;
+  virtual void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) = 0;
 };
-
 
 class Server {
  public:
-  virtual int open(int port, ClientHandler c)=0;
-  virtual void stop()=0;
+  virtual int open(int port, ClientHandler c) = 0;
+  virtual void stop() = 0;
 };
 
 }
