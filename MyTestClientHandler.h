@@ -7,6 +7,7 @@
 #include "Solver.h"
 #include "CacheManager.h"
 #include "Server.h"
+#include "AlgServer.h"
 using namespace server_side;
 
 template<typename P, typename S>
@@ -36,7 +37,7 @@ class MyTestClientHandler : public ClientHandler {
     //////////////////////////////////////////
     //////////////////////////////////////////
 
-    P problem; // get the problem from the input
+    P problem = input_stream->readFromStream(); // get the problem from the input
     S solution;
 
     if (problem == "end") // need to close the socket
@@ -53,9 +54,7 @@ class MyTestClientHandler : public ClientHandler {
     }
 
     // writing the solution to the output
-    //////////////////////////////////////////
-    //////////////////////////////////////////
-    //////////////////////////////////////////
+    out_put_stream->writeToStream(solution);
   }
 };
 
