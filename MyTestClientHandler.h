@@ -33,10 +33,6 @@ class MyTestClientHandler : public ClientHandler {
    */
   void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
     // reading the problem from the input
-    /////////////////////////////////////////////
-    //////////////////////////////////////////
-    //////////////////////////////////////////
-
     P problem = input_stream->readFromStream(); // get the problem from the input
     S solution;
 
