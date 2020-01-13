@@ -10,7 +10,6 @@ using namespace std;
 namespace server_side {
 // Interfaces
 
-
 class InputStream {
  public:
   virtual string readFromStream() = 0;
@@ -23,7 +22,7 @@ class OutPutStream {
 
 class ClientHandler {
  public:
-  virtual void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) = 0;
+  virtual void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {};
 };
 
 class Server {
