@@ -12,31 +12,50 @@ using namespace server_side;
 template<typename P, typename S>
 class MyTestClientHandler : public ClientHandler {
  private:
-  Solver<P, S> s; // P - problem S - solution
-  CacheManager<Solver<P, S>> ch;
+  Solver<P, S> s; // P - problem and S - solution
+  CacheManager<S> ch;
  public:
   /**
    * CTOR
    * @param s - the solver
    * @param ch - the cache manager
    */
-  MyTestClientHandler(Solver<P, S> s, CacheManager<Solver<P, S>> ch) {
+  MyTestClientHandler(Solver<P, S> s, int capacity) {
     this->s = s;
-    this->ch = ch;
+    this->ch = CacheManager<S>(capacity);
   }
 
   /**
-   * getSolver - if the solution (solver) is in the cache
-   * manager we return it. Otherwise we create and return it.
-   * @param line - the string line we get from the user.
-   * @return Solver<P, S> - the solver object.
+   * handleClient
+   * @param input_stream
+   * @param out_put_stream
    */
-  S getSolver(string line) {
-    if (this->ch.isExist(s) == 1) {
-      return this->ch.get(line);
+  void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
+    // reading the problem from the input
+    /////////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+
+    P problem; // get the problem from the input
+    S solution;
+
+    if (problem == "end") // need to close the socket
+      return;
+
+    if (this->ch.isExist(problem) == 1) {
+      // if the solution is available - return it
+      solution = this->ch.get(problem);
     } else {
-      return this->s.solve(line);
+      // create the solution
+      solution = this->s.solve(problem);
+      // insert the new solution into the cache manager
+      this->ch.insert(solution);
     }
+
+    // writing the solution to the output
+    //////////////////////////////////////////
+    //////////////////////////////////////////
+    //////////////////////////////////////////
   }
 };
 

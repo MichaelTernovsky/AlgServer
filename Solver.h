@@ -12,7 +12,7 @@ template<typename P, typename S>
 class Solver {
  public:
   // the method gets problem P and returns solution S
-  virtual S solve(P p) = 0;
+  virtual S solve(P p) {};
 };
 
 #endif //EX4__SOLVER_H_

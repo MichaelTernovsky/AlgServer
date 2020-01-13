@@ -11,10 +11,10 @@
 using namespace server_side;
 int client_socket;
 
-class MySerialServer : Server{
+class MySerialServer : Server {
 
  public:
-   int runExucteMethosAsThread(int portNum , ClientHandler client_handler) {
+  int runExucteMethosAsThread(int portNum, ClientHandler client_handler) {
 
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,7 +50,6 @@ class MySerialServer : Server{
       std::cout << "Server is now listening ..." << std::endl;
     }
 
-
     while (true) { //need to change it to other condition
 
       // accepting a client
@@ -63,7 +62,7 @@ class MySerialServer : Server{
         exit(1);
       }
 
-    client_handler.handleClient(new SocketInputStream (client_socket), new SocketOutputStream (client_socket));
+      client_handler.handleClient(new SocketInputStream(client_socket), new SocketOutputStream(client_socket));
       ///////////
       /////////
       //////////  17:03 12/1 continue here after implement write&read function at SockStream.h
@@ -72,29 +71,20 @@ class MySerialServer : Server{
       ///////////
       /////////
       close(socketfd); //closing the listening socket
-
-      }
     }
+  }
 
-
-
-
-
-  int open(int port, ClientHandler c){
-    thread ServerThread(&MySerialServer::runExucteMethosAsThread,this,port, c);
+  int open(int port, ClientHandler c) {
+    thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
     ServerThread.detach();
     while (!client_socket) {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   }
 
-
-
-  void stop(){
+  void stop() {
 
   }
-
 };
 
 #endif //EX4__MYSERIALSERVER_H_

@@ -8,8 +8,8 @@
 using namespace std;
 #include <string>
 namespace server_side {
-// Interfaces
 
+// Interfaces
 class InputStream {
  public:
   virtual string readFromStream() = 0;
