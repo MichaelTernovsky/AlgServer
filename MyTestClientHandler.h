@@ -13,10 +13,10 @@ using namespace server_side;
 template<typename P, typename S>
 class MyTestClientHandler : public ClientHandler {
  private:
-  Solver<P, S> s; // P - problem and S - solution
-  CacheManager<P, S> ch;
+  Solver<P, S> *s; // P - problem and S - solution
+  CacheManager<P, S> *ch;
  public:
-  MyTestClientHandler(Solver<P, S> s, CacheManager<P, S> ch);
+  MyTestClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch);
   void handleClient(InputStream *input_stream, OutPutStream *out_put_stream);
 };
 
@@ -26,7 +26,7 @@ class MyTestClientHandler : public ClientHandler {
  * @param ch - the cache manager
  */
 template<typename P, typename S>
-MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> s, CacheManager<P, S> ch) {
+MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch) {
   this->s = s;
   this->ch = ch;
 }
@@ -45,14 +45,14 @@ void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutSt
   if (problem == "end") // need to close the socket
     return;
 
-  if (this->ch.isExist(problem) == 1) {
+  if (this->ch->isExist(problem) == 1) {
     // if the solution is available - return it
-    solution = this->ch.get(problem);
+    solution = this->ch->get(problem);
   } else {
     // create the solution
-    solution = this->s.solve(problem);
+    solution = this->s->solve(problem);
     // insert the new solution into the cache manager
-    this->ch.insert(solution);
+    this->ch->insert(problem, solution);
   }
 
   // writing the solution to the output

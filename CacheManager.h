@@ -30,6 +30,7 @@ class CacheManager {
   unsigned int _capacity;
   unordered_map<P, typename list<ObjectData<P, S>>::iterator> _cache;
   list<ObjectData<P, S>> _lst;
+  hash<string> haser; // hash table that helps us to know the files object name
 
  public:
   CacheManager(int capacity);
@@ -37,6 +38,8 @@ class CacheManager {
   void writeToDisk(S *obj, string fileName);
   int isExist(P key);
   S get(P key);
+  void addToHash(P problem, string ending);
+
   //void foreach(void (*func)(T &));
   ~CacheManager() {};
 };
@@ -44,6 +47,13 @@ class CacheManager {
 template<typename P, typename S>
 CacheManager<P, S>::CacheManager(int capacity) {
   _capacity = capacity;
+}
+
+template<typename P, typename S>
+void CacheManager<P, S>::addToHash(P problem, string ending) {
+  string name = Typeid(problem).name();
+  name += problem;
+  name += ending;
 }
 
 template<typename P, typename S>
@@ -61,11 +71,8 @@ template<typename P, typename S>
 void CacheManager<P, S>::insert(P key, S obj) {
 
   //creating new file name according to the object and key
-//  string classType = T::class_name;
-//  string fileName = classType;
-//  fileName += key;
-
-  string fileName = "0";
+  int hashed = this->haser(key);
+  string fileName = to_string(hashed);
 
   bool limitSizeFlag = false;
   if (_cache.size() + 1 > _capacity) {
@@ -109,11 +116,8 @@ S CacheManager<P, S>::get(P key) {
 
   S getObj;
 
-//  string classType = T::class_name;
-//  string fileName = classType;
-//  fileName += key;
-
-  string fileName = "0";
+  int hashed = this->haser(key);
+  string fileName = to_string(hashed);
 
   // if the object is not found on cache
   if (_cache.find(key) == _cache.end()) {

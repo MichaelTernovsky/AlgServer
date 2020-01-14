@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
   int port = atoi(argv[0]);
   int capacity = 5;
 
-  CacheManager<string, string> ch = CacheManager<string, string>(capacity);
-  Solver<string, string> mySolver = StringReverser();
+  CacheManager<string, string> *ch = new CacheManager<string, string>(capacity);
+  Solver<string, string> *mySolver = new StringReverser();
 
   ClientHandler clientHand = MyTestClientHandler<string, string>(mySolver, ch);
 
