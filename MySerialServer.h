@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include "AlgServer.h"
 using namespace server_side;
-int client_socket;
+extern int client_socket;
 
 class MySerialServer : Server {
 
@@ -83,7 +83,7 @@ class MySerialServer : Server {
   }
 
   void stop() {
-
+    close(client_socket);
   }
 };
 

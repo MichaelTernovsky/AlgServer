@@ -10,11 +10,11 @@
 #include <unistd.h>
 
 bool SocketOutputStream::writeToStream(string str) {
-  int isSend=0;
-  const char* msg = str.c_str();
-  isSend=write(this->socket,msg,strlen(msg));
-  if(isSend<0){
-    cout<<"Error during write a massage! "<<endl;
+  int isSend = 0;
+  const char *msg = str.c_str();
+  isSend = write(this->socket, msg, strlen(msg));
+  if (isSend < 0) {
+    cout << "Error writing a massage! " << endl;
     return false;
   }
   return true;

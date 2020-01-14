@@ -3,3 +3,5 @@
 //
 
 #include "MySerialServer.h"
+
+int client_socket;

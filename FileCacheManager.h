@@ -9,7 +9,7 @@
 #include "Solver.h"
 
 template<typename P, typename S>
-class FileCacheManager : CacheManager<Solver<P, S>> {
+class FileCacheManager : CacheManager<P, S> {
   Solver<P, S> findSolution(string str);
 };
 

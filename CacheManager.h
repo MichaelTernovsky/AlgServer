@@ -12,44 +12,42 @@ using namespace std;
 #include <list>
 
 // inner assisting class
-template<typename T>
+template<typename P, typename S>
 class ObjectData {
-  string _key;
-  T _obj;
+  P _key;
+  S _obj;
 
  public:
-  ObjectData(string key, T obj) : _key(key), _obj(obj) {}
-  T getDataObj() { return _obj; }
-  string getDataKey() { return _key; }
+  ObjectData(P key, S obj) : _key(key), _obj(obj) {}
+  S getDataObj() { return _obj; }
+  P getDataKey() { return _key; }
   ObjectData() {};
   ~ObjectData() {};
 };
 
-template<typename T>
+template<typename P, typename S>
 class CacheManager {
-  //unordered_map<string, pair<T, list<string>>> _cache;
-  //unordered_map<string, std::pair<T, std::list<string>::iterator>> _cache;
   unsigned int _capacity;
-  unordered_map<string, typename list<ObjectData<T>>::iterator> _cache;
-  list<ObjectData<T>> _lst;
+  unordered_map<P, typename list<ObjectData<P, S>>::iterator> _cache;
+  list<ObjectData<P, S>> _lst;
 
  public:
   CacheManager(int capacity);
-  void insert(string key, T obj);
-  void writeToDisk(T *obj, string fileName);
-  int isExist(T key);
-  T get(string key);
-  void foreach(void (*func)(T &));
+  void insert(P key, S obj);
+  void writeToDisk(S *obj, string fileName);
+  int isExist(P key);
+  S get(P key);
+  //void foreach(void (*func)(T &));
   ~CacheManager() {};
 };
 
-template<typename T>
-CacheManager<T>::CacheManager(int capacity) {
+template<typename P, typename S>
+CacheManager<P, S>::CacheManager(int capacity) {
   _capacity = capacity;
 }
 
-template<typename T>
-void CacheManager<T>::writeToDisk(T *obj, string fileName) {
+template<typename P, typename S>
+void CacheManager<P, S>::writeToDisk(S *obj, string fileName) {
   fstream out(fileName, ios::out | ios::binary);
   if (out.is_open()) {
     out.write((char *) obj, sizeof(*obj));
@@ -59,13 +57,15 @@ void CacheManager<T>::writeToDisk(T *obj, string fileName) {
   out.close();
 }
 
-template<typename T>
-void CacheManager<T>::insert(string key, T obj) {
+template<typename P, typename S>
+void CacheManager<P, S>::insert(P key, S obj) {
 
   //creating new file name according to the object and key
-  string classType = T::class_name;
-  string fileName = classType;
-  fileName += key;
+//  string classType = T::class_name;
+//  string fileName = classType;
+//  fileName += key;
+
+  string fileName = "0";
 
   bool limitSizeFlag = false;
   if (_cache.size() + 1 > _capacity) {
@@ -83,7 +83,7 @@ void CacheManager<T>::insert(string key, T obj) {
 
     fstream out(fileName, ios::out | ios::binary);
     if (out.is_open()) {
-      ObjectData<T> objData(key, obj);
+      ObjectData<P, S> objData(key, obj);
 
       _lst.push_front(objData);
       _cache[key] = _lst.begin();
@@ -96,7 +96,7 @@ void CacheManager<T>::insert(string key, T obj) {
     _lst.erase(itr->second);
     _cache.erase(key);
 
-    ObjectData<T> objData(key, obj);
+    ObjectData<P, S> objData(key, obj);
     _lst.push_front(objData);
     _cache[key] = _lst.begin();
 
@@ -104,14 +104,16 @@ void CacheManager<T>::insert(string key, T obj) {
   }
 }
 
-template<typename T>
-T CacheManager<T>::get(string key) {
+template<typename P, typename S>
+S CacheManager<P, S>::get(P key) {
 
-  T getObj;
+  S getObj;
 
-  string classType = T::class_name;
-  string fileName = classType;
-  fileName += key;
+//  string classType = T::class_name;
+//  string fileName = classType;
+//  fileName += key;
+
+  string fileName = "0";
 
   // if the object is not found on cache
   if (_cache.find(key) == _cache.end()) {
@@ -137,7 +139,7 @@ T CacheManager<T>::get(string key) {
         _lst.erase(itr->second);
         _cache.erase(keyToDelete);
       }
-      ObjectData<T> objData(key, getObj);
+      ObjectData<P, S> objData(key, getObj);
       _lst.push_front(objData);
       _cache[key] = _lst.begin();
     }
@@ -151,27 +153,28 @@ T CacheManager<T>::get(string key) {
     _cache.erase(key);
 
     // entering the new object to the cache instead of the old one
-    ObjectData<T> objData(key, getObj);
+    ObjectData<P, S> objData(key, getObj);
     _lst.push_front(objData);
     _cache[key] = _lst.begin();
   }
   return getObj;
 }
 
-template<typename T>
-void CacheManager<T>::foreach(void (*func)(T &)) {
-  for (auto itr = _cache.begin(); itr != _cache.end(); itr++) {
-    T obj = (itr->second)->getDataObj();
-    func(obj);
-  }
-}
-
-template<typename T>
-int CacheManager<T>::isExist(T key) {
+template<typename P, typename S>
+int CacheManager<P, S>::isExist(P key) {
   if (_cache.find(key) == _cache.end())
     return 0;
   else
     return 1; // the object was found
 }
+
+//template<typename T>
+//void CacheManager<T>::foreach(void (*func)(T &)) {
+//  for (auto itr = _cache.begin(); itr != _cache.end(); itr++) {
+//    T obj = (itr->second)->getDataObj();
+//    func(obj);
+//  }
+//}
+
 
 #endif //EX2__CACHEMANAGER_H_
