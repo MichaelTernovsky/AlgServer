@@ -38,7 +38,7 @@ class CacheManager {
   void writeToDisk(S *obj, string fileName);
   int isExist(P key);
   S get(P key);
-  void addToHash(P problem, string ending);
+  void addToHash(P problem);
 
   //void foreach(void (*func)(T &));
   ~CacheManager() {};
@@ -50,10 +50,8 @@ CacheManager<P, S>::CacheManager(int capacity) {
 }
 
 template<typename P, typename S>
-void CacheManager<P, S>::addToHash(P problem, string ending) {
-  string name = Typeid(problem).name();
-  name += problem;
-  name += ending;
+void CacheManager<P, S>::addToHash(P problem) {
+  int hash = hasher(problem);
 }
 
 template<typename P, typename S>
@@ -70,7 +68,7 @@ void CacheManager<P, S>::writeToDisk(S *obj, string fileName) {
 template<typename P, typename S>
 void CacheManager<P, S>::insert(P key, S obj) {
 
-  //creating new file name according to the object and key
+  //creating new file name according to the hashing
   int hashed = this->haser(key);
   string fileName = to_string(hashed);
 
