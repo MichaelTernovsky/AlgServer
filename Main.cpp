@@ -6,7 +6,7 @@ using namespace server_side;
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  int port = atoi(argv[0]);
+  int port = atoi(argv[1]);
   int capacity = 5;
 
   CacheManager<string, string> *ch = new CacheManager<string, string>(capacity);
@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
   MySerialServer *mySerialServ = new MySerialServer();
   mySerialServ->open(port, clientHand);
-  mySerialServ->stop();
+  //mySerialServ->stop();
 
   return 0;
 }

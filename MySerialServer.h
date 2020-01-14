@@ -1,5 +1,5 @@
 //
-// Created by ofir on 09/01/2020.
+// Created by michael on 09/01/2020.
 //
 #ifndef EX4__MYSERIALSERVER_H_
 #define EX4__MYSERIALSERVER_H_
@@ -12,9 +12,11 @@ using namespace server_side;
 extern int client_socket;
 
 class MySerialServer : Server {
+ private:
+  int isStop = 0;
 
  public:
-  int runExucteMethosAsThread(int portNum, ClientHandler client_handler) {
+  void runExucteMethosAsThread(int portNum, ClientHandler client_handler) {
 
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -50,28 +52,28 @@ class MySerialServer : Server {
       std::cout << "Server is now listening ..." << std::endl;
     }
 
-    while (true) { //need to change it to other condition
+    // accepting a client
+    client_socket = accept(socketfd, (struct sockaddr *) &address,
+                           (socklen_t *) &address);
 
-      // accepting a client
-      client_socket = accept(socketfd, (struct sockaddr *) &address,
-                             (socklen_t *) &address);
+    cout << client_socket << endl;
 
-      if (client_socket == -1) {
-        std::cerr << "Error accepting client" << std::endl;
-        //return -4;
-        exit(1);
-      }
+    if (client_socket == -1) {
+      std::cerr << "Error accepting client" << std::endl;
+      exit(1);
+    }
+
+    while (isStop == 0) { //need to change it to other condition
 
       client_handler.handleClient(new SocketInputStream(client_socket), new SocketOutputStream(client_socket));
-      ///////////
-      /////////
-      //////////  17:03 12/1 continue here after implement write&read function at SockStream.h
-      /////////
-      ////////////
-      ///////////
-      /////////
-      close(socketfd); //closing the listening socket
+
+      cout << "im in the loop" << endl;
+
+      // time out
+      std::this_thread::sleep_for(std::chrono::milliseconds(18000));
     }
+
+    //close(socketfd); //closing the listening socket
   }
 
   int open(int port, ClientHandler c) {
@@ -80,10 +82,12 @@ class MySerialServer : Server {
     while (!client_socket) {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+
+    return 1;
   }
 
   void stop() {
-    close(client_socket);
+    isStop = 1;
   }
 };
 

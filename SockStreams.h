@@ -9,6 +9,18 @@
 #include "sys/socket.h"
 #include <unistd.h>
 
+string SocketInputStream::readFromStream() {
+  //reading from client
+  char buffer[1024] = {0};
+  int valread = read(this->socket, buffer, 1024);
+
+  // converting the array of chars into string
+  string s = "";
+  for (int i = 0; i < 1024; i++)
+    s += buffer[i];
+  return s;
+}
+
 bool SocketOutputStream::writeToStream(string str) {
   int isSend = 0;
   const char *msg = str.c_str();
@@ -18,11 +30,6 @@ bool SocketOutputStream::writeToStream(string str) {
     return false;
   }
   return true;
-}
-//distractor///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Need to Update.
-string SocketInputStream::readFromStream() {
-
 }
 
 #endif //EX4__SOCKSTREAMS_H_

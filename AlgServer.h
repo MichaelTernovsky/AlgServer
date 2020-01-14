@@ -14,7 +14,6 @@
 using namespace std;
 using namespace server_side;
 
-
 //socket inputStream
 class SocketInputStream : public InputStream {
   int socket;
