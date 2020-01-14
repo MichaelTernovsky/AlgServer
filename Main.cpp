@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   CacheManager<string, string> *ch = new CacheManager<string, string>(capacity);
   Solver<string, string> *mySolver = new StringReverser();
 
-  ClientHandler clientHand = MyTestClientHandler<string, string>(mySolver, ch);
+  ClientHandler *clientHand = new MyTestClientHandler<string, string>(mySolver, ch);
 
   MySerialServer *mySerialServ = new MySerialServer();
   mySerialServ->open(port, clientHand);

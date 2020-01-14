@@ -4,7 +4,7 @@
 
 #ifndef EX4__SERVER_H_
 #define EX4__SERVER_H_
-
+#include <iostream>
 using namespace std;
 #include <string>
 namespace server_side {
@@ -27,7 +27,7 @@ class ClientHandler {
 
 class Server {
  public:
-  virtual int open(int port, ClientHandler c) = 0;
+  virtual int open(int port, ClientHandler *c) = 0;
   virtual void stop() = 0;
 };
 

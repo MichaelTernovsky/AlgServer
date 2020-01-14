@@ -16,7 +16,7 @@ class MySerialServer : Server {
   int isStop = 0;
 
  public:
-  void runExucteMethosAsThread(int portNum, ClientHandler client_handler) {
+  void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
 
     //create socket
     int socketfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -64,19 +64,13 @@ class MySerialServer : Server {
     }
 
     while (isStop == 0) { //need to change it to other condition
-
-      client_handler.handleClient(new SocketInputStream(client_socket), new SocketOutputStream(client_socket));
-
-      cout << "im in the loop" << endl;
-
-      // time out
-      std::this_thread::sleep_for(std::chrono::milliseconds(18000));
+      client_handler->handleClient(new SocketInputStream(client_socket), new SocketOutputStream(client_socket));
     }
 
     //close(socketfd); //closing the listening socket
   }
 
-  int open(int port, ClientHandler c) {
+  int open(int port, ClientHandler *c) {
     thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
     ServerThread.detach();
     while (!client_socket) {
