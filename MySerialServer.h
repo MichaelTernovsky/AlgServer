@@ -48,33 +48,26 @@ class MySerialServer : Server {
     } else {
       std::cout << "Server is now listening ..." << std::endl;
     }
+int timeOutCheck=0;
+    while (true) {
+      client_socket = accept(sockIn, (struct sockaddr *) &address,
+                             (socklen_t *) &address);
 
-    // accepting a client
-    client_socket = accept(sockIn, (struct sockaddr *) &address,
-                           (socklen_t *) &address);
+      if (client_socket == -1) {
+        std::cerr << "Error accepting client" << std::endl;
+        exit(1);
+      }
 
-    cout << client_socket << endl;
-
-    if (client_socket == -1) {
-      std::cerr << "Error accepting client" << std::endl;
-      exit(1);
-    }
-
-    close(sockIn); //closing the listening socket
-    while (true) { //need to change it to other condition
       client_handler->handleClient(new SocketInputStream(client_socket),
                                    new SocketOutputStream(client_socket));
-      //  this->stop();
-    }
 
-    struct timeval tv;
-    tv.tv_sec = 120;
-    setsockopt(sockIn, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
+      this->stop();
+    }
   }
 
   int open(int port, ClientHandler *c) {
     thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    ServerThread.detach();
+    ServerThread.join();
     while (this->isStop == 0) {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -83,6 +76,7 @@ class MySerialServer : Server {
 
   void stop() {
     this->isStop = 1;
+    close(client_socket); //closing the listening socket
   }
 };
 

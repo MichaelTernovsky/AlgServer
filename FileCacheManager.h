@@ -99,7 +99,7 @@ S FileCacheManager<P, S>::get(P key) {
     fstream in(fileName, ios::in | ios::binary);
     // the object was not found in files also - it is a new object
     if (!in.is_open()) {
-      throw "Object was not found";
+      cout << "Object was not found" << endl;
     } else {
       // read the object from the files
       in >> getObj;

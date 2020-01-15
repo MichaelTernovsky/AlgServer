@@ -38,28 +38,30 @@ MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *s, CacheManager<P, 
  */
 template<typename P, typename S>
 void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
-  // reading the problem from the input
-  P problem = input_stream->readFromStream(); // get the problem from the input
 
+  // reading the problem from the input
+  P problem = input_stream->readFromStream();
   S solution;
 
-  if (problem == "end") // need to close the socket
-    return;
+  while (problem != "end\r\n") {
+    if (this->ch->isExist(problem) == 1) {
+      // if the solution is available - return it
+      cout << "we found the object in cache/disk" << endl;
+      solution = this->ch->get(problem);
+    } else {
+      // create the solution
+      solution = this->s->solve(problem);
+      // insert the new solution into the cache manager
+      cout << "new solution" << endl;
+      this->ch->insert(problem, solution);
+    }
 
-  if (this->ch->isExist(problem) == 1) {
-    // if the solution is available - return it
-    cout << "we found the object in cache/disk" << endl;
-    solution = this->ch->get(problem);
-  } else {
-    // create the solution
-    solution = this->s->solve(problem);
-    // insert the new solution into the cache manager
-    cout << "new solution" << endl;
-    this->ch->insert(problem, solution);
+    // writing the solution to the output
+    out_put_stream->writeToStream(solution);
+
+    // reading the problem from the input
+   problem = input_stream->readFromStream();
   }
-
-  // writing the solution to the output
-  out_put_stream->writeToStream(solution);
 }
 
 #endif //EX4__MYTESTCLIENTHANDLER_H_
