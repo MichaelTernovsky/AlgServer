@@ -48,7 +48,7 @@ void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutSt
 
   if (this->ch->isExist(problem) == 1) {
     // if the solution is available - return it
-    cout << "we are in the cache manager" << endl;
+    cout << "we found the object in cache/disk" << endl;
     solution = this->ch->get(problem);
   } else {
     // create the solution

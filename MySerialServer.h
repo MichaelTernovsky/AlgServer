@@ -66,6 +66,10 @@ class MySerialServer : Server {
                                    new SocketOutputStream(client_socket));
       //  this->stop();
     }
+
+    struct timeval tv;
+    tv.tv_sec = 120;
+    setsockopt(sockIn, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
   }
 
   int open(int port, ClientHandler *c) {

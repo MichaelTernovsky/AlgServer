@@ -141,10 +141,22 @@ S FileCacheManager<P, S>::get(P key) {
 
 template<typename P, typename S>
 int FileCacheManager<P, S>::isExist(P key) {
-  if (_cache.find(key) == _cache.end())
-    return 0;
-  else
-    return 1; // the object was found
+  if (_cache.find(key) != _cache.end()) {
+    // found in the cache
+    return 1;
+  } else {
+    // trying to get the object from the disk
+    int hashed = this->haser(key);
+    string fileName = to_string(hashed);
+    fstream in(fileName, ios::in | ios::binary);
+    if (!in.is_open()) {
+      // object not found on disk
+      return 0;
+    } else {
+      // object found on disk
+      return 1;
+    }
+  }
 }
 
 #endif //EX4__FILECACHEMANAGER_H_
