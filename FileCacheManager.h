@@ -33,7 +33,8 @@ template<typename P, typename S>
 void FileCacheManager<P, S>::writeToDisk(S *obj, string fileName) {
   fstream out(fileName, ios::out | ios::binary);
   if (out.is_open()) {
-    out.write((char *) obj, sizeof(*obj));
+//    out.write((char *) obj, sizeof(*obj));///////////////////////////////////////////////////////////////////////////////////
+    out << obj;
   } else {
     throw "Could not open the file";
   }
@@ -100,7 +101,8 @@ S FileCacheManager<P, S>::get(P key) {
       throw "Object was not found";
     } else {
       // read the object from the files
-      in.read((char *) &getObj, sizeof(getObj));
+      // in.read((char *) &getObj, sizeof(getObj)); ////////////////////////////////////////////////////////////////////////////////////////////
+      in >> getObj;
       in.close();
 
       // writing the object to the map and list
