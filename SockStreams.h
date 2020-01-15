@@ -38,7 +38,7 @@ bool SocketOutputStream::writeToStream(string str) {
 
   int isSend = 0;
   const char *msg = str.c_str();
-  isSend = write(this->socket, msg, strlen(msg));
+  isSend = send(this->socket, msg, strlen(msg),0);
   if (isSend < 0) {
     cout << "Error writing a massage! " << endl;
     return false;

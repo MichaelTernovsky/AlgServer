@@ -16,6 +16,7 @@ using namespace server_side;
 
 //socket inputStream
 class SocketInputStream : public InputStream {
+ private:
   int socket;
  public:
   SocketInputStream(int soc) {
@@ -26,6 +27,7 @@ class SocketInputStream : public InputStream {
 
 //socket outputStream
 class SocketOutputStream : public OutPutStream {
+ private:
   int socket;
  public:
   SocketOutputStream(int soc) {

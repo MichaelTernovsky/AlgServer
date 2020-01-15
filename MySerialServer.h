@@ -19,8 +19,9 @@ class MySerialServer : Server {
   void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
 
     //create socket
-    int socketfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (socketfd == -1) {
+    int sockIn = socket(AF_INET, SOCK_STREAM, 0); //socket for input
+    int sockOut = socket(AF_INET, SOCK_STREAM, 0); //socket for output
+    if (sockIn == -1||sockOut == -1) {
       //error
       std::cerr << "Could not create a socket" << std::endl;
       //return -1;
@@ -36,14 +37,14 @@ class MySerialServer : Server {
 
     //we need to convert our number to a number that the network understands
     //the actual bind command
-    if (bind(socketfd, (struct sockaddr *) &address, sizeof(address)) == -1) {
+    if (bind(sockIn, (struct sockaddr *) &address, sizeof(address)) == -1) {
       std::cerr << "Could not bind the socket to an IP" << std::endl;
       //return -2;
       exit(1);
     }
 
     //making socket listen to the port
-    if (listen(socketfd, 5) == -1) {
+    if (listen(sockIn, 5) == -1) {
       //can also set to SOMAXCON (max connections)
       std::cerr << "Error during listening command" << std::endl;
       //return -3;
@@ -53,7 +54,7 @@ class MySerialServer : Server {
     }
 
     // accepting a client
-    client_socket = accept(socketfd, (struct sockaddr *) &address,
+    client_socket = accept(sockIn, (struct sockaddr *) &address,
                            (socklen_t *) &address);
 
     cout << client_socket << endl;
