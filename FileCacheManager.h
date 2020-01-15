@@ -33,8 +33,7 @@ template<typename P, typename S>
 void FileCacheManager<P, S>::writeToDisk(S *obj, string fileName) {
   fstream out(fileName, ios::out | ios::binary);
   if (out.is_open()) {
-//    out.write((char *) obj, sizeof(*obj));///////////////////////////////////////////////////////////////////////////////////
-    out << obj;
+    out << *obj;
   } else {
     throw "Could not open the file";
   }
@@ -47,6 +46,7 @@ void FileCacheManager<P, S>::insert(P key, S obj) {
   //creating new file name according to the hashing
   int hashed = this->haser(key);
   string fileName = to_string(hashed);
+  fileName += ".txt";
 
   bool limitSizeFlag = false;
   if (_cache.size() + 1 > _capacity) {
@@ -92,6 +92,7 @@ S FileCacheManager<P, S>::get(P key) {
 
   int hashed = this->haser(key);
   string fileName = to_string(hashed);
+  fileName += ".txt";
 
   // if the object is not found on cache
   if (_cache.find(key) == _cache.end()) {
@@ -101,7 +102,6 @@ S FileCacheManager<P, S>::get(P key) {
       throw "Object was not found";
     } else {
       // read the object from the files
-      // in.read((char *) &getObj, sizeof(getObj)); ////////////////////////////////////////////////////////////////////////////////////////////
       in >> getObj;
       in.close();
 
@@ -148,6 +148,7 @@ int FileCacheManager<P, S>::isExist(P key) {
     // trying to get the object from the disk
     int hashed = this->haser(key);
     string fileName = to_string(hashed);
+    fileName += ".txt";
     fstream in(fileName, ios::in | ios::binary);
     if (!in.is_open()) {
       // object not found on disk
