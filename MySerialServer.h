@@ -20,11 +20,9 @@ class MySerialServer : Server {
 
     //create socket
     int sockIn = socket(AF_INET, SOCK_STREAM, 0); //socket for input
-    int sockOut = socket(AF_INET, SOCK_STREAM, 0); //socket for output
-    if (sockIn == -1||sockOut == -1) {
+    if (sockIn == -1) {
       //error
       std::cerr << "Could not create a socket" << std::endl;
-      //return -1;
       exit(1);
     }
 
@@ -39,7 +37,6 @@ class MySerialServer : Server {
     //the actual bind command
     if (bind(sockIn, (struct sockaddr *) &address, sizeof(address)) == -1) {
       std::cerr << "Could not bind the socket to an IP" << std::endl;
-      //return -2;
       exit(1);
     }
 
@@ -47,7 +44,6 @@ class MySerialServer : Server {
     if (listen(sockIn, 5) == -1) {
       //can also set to SOMAXCON (max connections)
       std::cerr << "Error during listening command" << std::endl;
-      //return -3;
       exit(1);
     } else {
       std::cout << "Server is now listening ..." << std::endl;
@@ -64,25 +60,25 @@ class MySerialServer : Server {
       exit(1);
     }
 
-    while (isStop == 0) { //need to change it to other condition
-      client_handler->handleClient(new SocketInputStream(client_socket), new SocketOutputStream(client_socket));
-    }
+    close(sockIn); //closing the listening socket
 
-    //close(socketfd); //closing the listening socket
+    while (true) { //need to change it to other condition
+      client_handler->handleClient(new SocketInputStream(client_socket),
+                                   new SocketOutputStream(client_socket));
+    }
   }
 
   int open(int port, ClientHandler *c) {
     thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
     ServerThread.detach();
-    while (!client_socket) {
+    while (this->isStop == 0) {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
-
     return 1;
   }
 
   void stop() {
-    isStop = 1;
+    this->isStop = 1;
   }
 };
 
