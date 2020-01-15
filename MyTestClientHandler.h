@@ -38,12 +38,8 @@ MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *s, CacheManager<P, 
  */
 template<typename P, typename S>
 void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
-  cout << "Im in MyTestClientHandler1" << endl;
-
   // reading the problem from the input
   P problem = input_stream->readFromStream(); // get the problem from the input
-
-  cout << "Im in MyTestClientHandler2" << endl;
 
   S solution;
 
@@ -52,11 +48,13 @@ void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutSt
 
   if (this->ch->isExist(problem) == 1) {
     // if the solution is available - return it
+    cout << "we are in the cache manager" << endl;
     solution = this->ch->get(problem);
   } else {
     // create the solution
     solution = this->s->solve(problem);
     // insert the new solution into the cache manager
+    cout << "new solution" << endl;
     this->ch->insert(problem, solution);
   }
 
