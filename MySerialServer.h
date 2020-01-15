@@ -61,10 +61,10 @@ class MySerialServer : Server {
     }
 
     close(sockIn); //closing the listening socket
-
     while (true) { //need to change it to other condition
       client_handler->handleClient(new SocketInputStream(client_socket),
                                    new SocketOutputStream(client_socket));
+        this->stop();
     }
   }
 
