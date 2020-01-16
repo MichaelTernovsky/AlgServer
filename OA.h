@@ -22,8 +22,10 @@ class OA : public Solver<P, S> {
 
   S solve(P p) {
     MatrixProblem<T> *problem = new MatrixProblem<T>(p);
-    State<string> st = new State<string>()
-    problem->getAllPossibleStates()
+    State<string> *st = new State<string>("start");
+    problem->getInitialState();
+    problem->isGoalState(st);
+    problem->getAllPossibleStates(st);
     return this->searcher->search(problem);
   };
 };

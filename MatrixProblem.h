@@ -22,12 +22,13 @@ class MatrixProblem : public Searchable<T> {
   State<T> getInitialState() {
     cout << "initialState@#R%@#%@" << endl;
   };
-  bool isGoalState(State<T> st) {
+  bool isGoalState(State<T> *st) {
     cout << "goalState@#R%@#%@" << endl;
 
   };
-  State<T> *getAllPossibleStates(State<T>) {
+  State<T> *getAllPossibleStates(State<T> *st) {
     cout << "getAllPossibleStates@#R%@#%@" << endl;
+
   };
 };
 

@@ -47,7 +47,7 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
 
   string tmp = input_stream->readFromStream();
   while (tmp != "end\r\n") {
-    str += input_stream->readFromStream();
+    str += tmp;
     tmp = input_stream->readFromStream();
   }
 

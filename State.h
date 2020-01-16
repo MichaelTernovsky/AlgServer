@@ -8,7 +8,7 @@
 template<typename T>
 class State {
  private:
-  T *obj;
+  T obj;
  public:
   State(T newObj) {
     this->obj = newObj;
