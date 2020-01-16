@@ -52,7 +52,6 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
   }
 
   // creating the matrix from the string we get from the client
-  MatrixProblem<string> *problem = new MatrixProblem<string>(str);
 
   if (this->ch->isExist(str) == 1) {
     // if the solution is available - return it
@@ -60,7 +59,7 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
     solution = this->ch->get(str);
   } else {
     // create the solution
-    solution = this->s->solve(problem);
+    solution = this->s->solve(str);
     // insert the new solution into the cache manager
     cout << "new solution" << endl;
     this->ch->insert(str, solution);

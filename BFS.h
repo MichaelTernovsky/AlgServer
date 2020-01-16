@@ -9,11 +9,12 @@
 #include <iostream>
 using namespace std;
 
-template<typename T>
-class BFS : public Searcher<T> {
-  template<typename S>
+template<typename T,typename S>
+class BFS : public Searcher<T,S> {
   S search(Searchable<T> *searchObj) {
     cout << "moshe" << endl;
+    S obj;
+    return obj;
   }
 };
 

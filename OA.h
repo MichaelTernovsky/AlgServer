@@ -13,15 +13,18 @@
 template<typename P, typename S, typename T>
 class OA : public Solver<P, S> {
  private:
-  Searcher<T> *searcher;
+  Searcher<T,S> *searcher;
 
  public:
-  OA(Searcher<T> *s) {
+  OA(Searcher<T,S> *s) {
     this->searcher = s;
   }
 
   S solve(P p) {
-    return this->searcher->search(p);
+    MatrixProblem<T> *problem = new MatrixProblem<T>(p);
+    State<string> st = new State<string>()
+    problem->getAllPossibleStates()
+    return this->searcher->search(problem);
   };
 };
 

@@ -7,11 +7,10 @@
 #include "Solver.h"
 #include "Searchable.h"
 
-template<typename T>
+template<typename T,typename S>
 class Searcher {
  public:
-  template<typename S>
-  S search(Searchable<T> *searchObj);
+  virtual S search(Searchable<T> *searchObj){};
 };
 
 #endif //EX4__SEARCHER_H_
