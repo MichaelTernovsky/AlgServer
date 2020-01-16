@@ -48,7 +48,7 @@ class MySerialServer : Server {
     } else {
       std::cout << "Server is now listening ..." << std::endl;
     }
-int timeOutCheck=0;
+    int timeOutCheck = 0;
     while (true) {
       client_socket = accept(sockIn, (struct sockaddr *) &address,
                              (socklen_t *) &address);

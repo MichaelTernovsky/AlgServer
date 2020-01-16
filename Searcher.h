@@ -6,12 +6,12 @@
 #define EX4__SEARCHER_H_
 #include "Solver.h"
 #include "Searchable.h"
-template<typename P, typename S>
-class Searcher:Solver<P,S> {
- public:
-  template<typename T>
-  S search(Searchable<T> srchObj);
 
+template<typename T>
+class Searcher {
+ public:
+  template<typename S>
+  S search(Searchable<T> *searchObj);
 };
 
 #endif //EX4__SEARCHER_H_

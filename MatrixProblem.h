@@ -1,0 +1,25 @@
+//
+// Created by michael on 16/01/2020.
+//
+
+#ifndef EX4__MATRIXPROBLEM_H_
+#define EX4__MATRIXPROBLEM_H_
+
+#include "Searchable.h"
+#include <iostream>
+using namespace std;
+template<typename T>
+class MatrixProblem : public Searchable<T> {
+  State<T> getInitialState() {
+    cout<<"initialState@#R%@#%@"<<endl;
+  };
+  bool isGoalState(State<T> st) {
+    cout<<"goalState@#R%@#%@"<<endl;
+
+  };
+  State<T> *getAllPossibleStates(State<T>) {
+    cout<<"getAllPossibleStates@#R%@#%@"<<endl;
+  };
+};
+
+#endif //EX4__MATRIXPROBLEM_H_
