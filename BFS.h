@@ -11,12 +11,10 @@ using namespace std;
 
 template<typename T>
 class BFS : public Searcher<T> {
-
   template<typename S>
-  S search(Searchable<T> searchObj) {
+  S search(Searchable<T> *searchObj) {
     cout << "moshe" << endl;
   }
-
 };
 
 #endif //EX4__BFS_H_

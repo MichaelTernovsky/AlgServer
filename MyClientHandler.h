@@ -9,6 +9,7 @@
 #include "CacheManager.h"
 #include "Server.h"
 #include "AlgServer.h"
+#include "MatrixProblem.h"
 using namespace server_side;
 
 template<typename P, typename S>
@@ -40,29 +41,37 @@ MyClientHandler<P, S>::MyClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch) 
 template<typename P, typename S>
 void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
 
+  ///////////////////////////////////////////////////////////////////////////
+  // creating the matrixProblem obj and using OA.set.
+  ///////////////////////////////////////////////////////////////////////////
+
   // reading the problem from the input
-  P problem = input_stream->readFromStream();
   S solution;
+  string str = "";
 
-  while (problem != "end\r\n") {
-    if (this->ch->isExist(problem) == 1) {
-      // if the solution is available - return it
-      cout << "we found the object in cache/disk" << endl;
-      solution = this->ch->get(problem);
-    } else {
-      // create the solution
-      solution = this->s->solve(problem);
-      // insert the new solution into the cache manager
-      cout << "new solution" << endl;
-      this->ch->insert(problem, solution);
-    }
-
-    // writing the solution to the output
-    out_put_stream->writeToStream(solution);
-
-    // reading the problem from the input
-    problem = input_stream->readFromStream();
+  string tmp = input_stream->readFromStream();
+  while (tmp != "end\r\n") {
+    str += input_stream->readFromStream();
+    tmp = input_stream->readFromStream();
   }
+
+  // creating the matrix from the string we get from the client
+  MatrixProblem<string> *problem = new MatrixProblem<string>(str);
+
+  if (this->ch->isExist(problem) == 1) {
+    // if the solution is available - return it
+    cout << "we found the object in cache/disk" << endl;
+    solution = this->ch->get(problem);
+  } else {
+    // create the solution
+    solution = this->s->solve(problem);
+    // insert the new solution into the cache manager
+    cout << "new solution" << endl;
+    this->ch->insert(problem, solution);
+  }
+
+  // writing the solution to the output
+  out_put_stream->writeToStream(solution);
 }
 
 #endif //EX4__MYCLIENTHANDLER_H_

@@ -10,15 +10,24 @@
 using namespace std;
 template<typename T>
 class MatrixProblem : public Searchable<T> {
+
+ private:
+  string str;
+
+ public:
+  MatrixProblem(string str) {
+    this->str = str;
+  }
+
   State<T> getInitialState() {
-    cout<<"initialState@#R%@#%@"<<endl;
+    cout << "initialState@#R%@#%@" << endl;
   };
   bool isGoalState(State<T> st) {
-    cout<<"goalState@#R%@#%@"<<endl;
+    cout << "goalState@#R%@#%@" << endl;
 
   };
   State<T> *getAllPossibleStates(State<T>) {
-    cout<<"getAllPossibleStates@#R%@#%@"<<endl;
+    cout << "getAllPossibleStates@#R%@#%@" << endl;
   };
 };
 

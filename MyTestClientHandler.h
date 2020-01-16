@@ -38,7 +38,6 @@ MyTestClientHandler<P, S>::MyTestClientHandler(Solver<P, S> *s, CacheManager<P, 
  */
 template<typename P, typename S>
 void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
-
   // reading the problem from the input
   P problem = input_stream->readFromStream();
   S solution;
@@ -60,7 +59,7 @@ void MyTestClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutSt
     out_put_stream->writeToStream(solution);
 
     // reading the problem from the input
-   problem = input_stream->readFromStream();
+    problem = input_stream->readFromStream();
   }
 }
 

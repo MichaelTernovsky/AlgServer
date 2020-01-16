@@ -44,7 +44,8 @@ template<typename P, typename S>
 void FileCacheManager<P, S>::insert(P key, S obj) {
 
   //creating new file name according to the hashing
-  int hashed = this->haser(key);
+  string str = typeid(key).name();
+  int hashed = this->haser(str);
   string fileName = to_string(hashed);
   fileName += ".txt";
 
@@ -90,7 +91,8 @@ S FileCacheManager<P, S>::get(P key) {
 
   S getObj;
 
-  int hashed = this->haser(key);
+  string str = typeid(key).name();
+  int hashed = this->haser(str);
   string fileName = to_string(hashed);
   fileName += ".txt";
 
@@ -146,7 +148,8 @@ int FileCacheManager<P, S>::isExist(P key) {
     return 1;
   } else {
     // trying to get the object from the disk
-    int hashed = this->haser(key);
+    string str = typeid(key).name();
+    int hashed = this->haser(str);
     string fileName = to_string(hashed);
     fileName += ".txt";
     fstream in(fileName, ios::in | ios::binary);

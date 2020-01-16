@@ -14,19 +14,14 @@ template<typename P, typename S, typename T>
 class OA : public Solver<P, S> {
  private:
   Searcher<T> *searcher;
-  Searchable<T> *searchable;
 
  public:
   OA(Searcher<T> *s) {
     this->searcher = s;
   }
 
-  Searchable<T> SetSearchable(Searchable<T> *newSearchable) {
-    this->searchable = newSearchable;
-  }
-
   S solve(P p) {
-    return this->searcher->search(this->searchable);
+    return this->searcher->search(p);
   };
 };
 
