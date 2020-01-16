@@ -41,10 +41,6 @@ MyClientHandler<P, S>::MyClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch) 
 template<typename P, typename S>
 void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
 
-  ///////////////////////////////////////////////////////////////////////////
-  // creating the matrixProblem obj and using OA.set.
-  ///////////////////////////////////////////////////////////////////////////
-
   // reading the problem from the input
   S solution;
   string str = "";
@@ -58,16 +54,16 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
   // creating the matrix from the string we get from the client
   MatrixProblem<string> *problem = new MatrixProblem<string>(str);
 
-  if (this->ch->isExist(problem) == 1) {
+  if (this->ch->isExist(str) == 1) {
     // if the solution is available - return it
     cout << "we found the object in cache/disk" << endl;
-    solution = this->ch->get(problem);
+    solution = this->ch->get(str);
   } else {
     // create the solution
     solution = this->s->solve(problem);
     // insert the new solution into the cache manager
     cout << "new solution" << endl;
-    this->ch->insert(problem, solution);
+    this->ch->insert(str, solution);
   }
 
   // writing the solution to the output

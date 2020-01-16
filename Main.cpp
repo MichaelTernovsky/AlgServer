@@ -11,11 +11,12 @@ using namespace std;
 int main(int argc, char *argv[]) {
   int port = atoi(argv[1]);
   int capacity = 5;
+
+
   CacheManager<string, string> *ch = new FileCacheManager<string, string>(capacity);
 
   Searcher<string> *s = new BFS<string>();
   Solver<string, string> *mySolver = new OA<string, string, string>(s);
-
   ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);
 
   MySerialServer *mySerialServ = new MySerialServer();
