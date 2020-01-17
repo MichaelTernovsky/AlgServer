@@ -12,14 +12,13 @@ class State {
   int j;
   T value;
   State<T> *father;
-  int isVisited;
 
  public:
   State(int i, int j, T val) {
     this->i = i;
     this->j = j;
     this->value = val;
-    this->isVisited = 0;
+    this->father = nullptr;
   }
 
   State(int i, int j, T val, State<T> *father) {
@@ -27,9 +26,8 @@ class State {
     this->j = j;
     this->value = val;
     this->father = father;
-    this->isVisited = 0;
+    this->father = nullptr;
   }
-
   int getI() {
     return this->i;
   }
@@ -39,17 +37,15 @@ class State {
   T getValue() {
     return this->value;
   }
-  int getIsVisited() {
-    return this->isVisited;
-  }
   State<T> *getFather() {
     return this->father;
   }
   void *setFather(State<T> *f) {
     this->father = f;
   }
-  void setIsVisited(int isVisit) {
-    this->isVisited = isVisit;
+  bool isEqual(State<T> *st1) {
+    return ((st1->getI() == this->getI()) && (st1->getJ() == this->getJ())
+        && (st1->getValue() == this->getValue()));
   }
 };
 
