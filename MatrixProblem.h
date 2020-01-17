@@ -57,7 +57,7 @@ class MatrixProblem : public Searchable<T> {
     int i = 0;
     int countRows = 0;
 
-    while (tmp[i] != '\n') {
+    while (tmp[i] != '\n' && tmp[i] != '\r') {
       if (tmp[i] != ',')
         countRows++;
       i++;
@@ -79,7 +79,7 @@ class MatrixProblem : public Searchable<T> {
         vect.push_back(i);
         if (s.peek() == ',')
           s.ignore();
-        if (s.peek() == '\n')
+        if (s.peek() == '\n' || s.peek() == '\r')
           break;
       }
 
@@ -159,7 +159,17 @@ class MatrixProblem : public Searchable<T> {
     int i = st->getI();
     int j = st->getJ();
 
-    if (i == 0 && j == 0) {
+    if ((i == 0 && j == this->colsNum - 1)) {
+      if (matrixVct[i][j - 1] != -1) state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i + 1][j] != -1) state2 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+    } else if (i == this->rowNum - 1 && j == 0) {
+      if (matrixVct[i - 1][j] != -1) state1 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+    }
+
+
+
+    else if (i == 0 && j == 0) {
       if (matrixVct[i + 1][j] != -1) state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
       if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
     } else if (i == 0 && j != 0) {

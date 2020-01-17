@@ -29,7 +29,6 @@ class DFS : public Searcher<T, S> {
       if (searchObj->isGoalState(currState)) {
         break;
       }
-
       // if is not visited yet - not is the list
       if (!isInList(lst, currState)) {
         // mark as visited - insert to the list
@@ -52,15 +51,59 @@ class DFS : public Searcher<T, S> {
       pathLst.push_front(currState);
       currState = currState->getFather();
     }
+
+    if (!pathLst.empty())
+      pathLst.push_front(initState);
+
+    string str = "";
+    for (auto x:pathLst) {
+      State<T> *obj = x;
+      str += obj->getValue();
+      str += "->";
+    }
+
+//    // creating the path string
+//    S str = "";
+//    for (auto x:pathLst) {
+//      State<T> *state = pathLst.front();
+//      pathLst.pop_front();
+//
+//      int currI = state->getI();
+//      int currJ = state->getJ();
+//      if (state->getFather() != NULL) {
+//        int fatherI = state->getFather()->getI();
+//        int fatherJ = state->getFather()->getJ();
+//
+//        if (currI == fatherI + 1) {
+//          str += "UP -> ";
+//        }
+//
+//        if (currJ == fatherJ + 1) {
+//          str += "UP -> ";
+//        }
+//        if (currI == fatherI + 1) {
+//          str += "UP -> ";
+//        }
+//        if (currI == fatherI + 1) {
+//          str += "UP -> ";
+//        }
+//
+//      } else
+//        break;
+//    }
+
+    return str;
   }
 
   bool isInList(list<State<T> *> lst, State<T> *s) {
     if (lst.empty())
       return false;
 
-    for (auto x:lst)
-      if (x == s)
+    for (auto x:lst) {
+      State<T> *tmp = x;
+      if (tmp->isEqual(s))
         return true;
+    }
     return false;
   }
 };
