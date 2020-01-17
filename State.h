@@ -11,7 +11,8 @@ class State {
   int i;
   int j;
   T value;
-  //State<T> father;
+  int isVisited;
+  State<T> father;
 
  public:
   State(int i, int j, T val) {
@@ -30,7 +31,13 @@ class State {
     return this->value;
   }
   State<T> *getFather() {
-    //return this->father;
+    return this->father;
+  }
+  void setFather(State<T> f) {
+    this->father = f;
+  }
+  int setIsVisited(int visited) {
+    this->isVisited = visited;
   }
 };
 
