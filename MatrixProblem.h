@@ -18,7 +18,7 @@ class MatrixProblem : public Searchable<T> {
   string matrixStr;
   int colsNum;
   int rowNum;
-  vector<vector<int> > matrixVct;
+  vector<vector<T> > matrixVct;
 
  public:
   /**
@@ -30,6 +30,14 @@ class MatrixProblem : public Searchable<T> {
     this->rowNum = this->getNumRows();
     this->colsNum = this->getNumCols();
     this->creatingMatrixVector();
+  }
+
+  /**
+   * getMatrix - returning the matrix.
+   * vector<vector<int> > - the matrix.
+   */
+  vector<vector<T> > getMatrix() {
+    return this->matrixVct;
   }
 
   /**
@@ -70,7 +78,7 @@ class MatrixProblem : public Searchable<T> {
    */
   void creatingMatrixVector() {
     string tmp = this->matrixStr;
-    vector<int> vect;
+    vector<T> vect;
     stringstream s(tmp);
 
     for (int j = 0; j < this->rowNum; j++) {
@@ -96,7 +104,7 @@ class MatrixProblem : public Searchable<T> {
   State<T> *getInitialState() {
     // running over the str and finding the starting point
     string tmp = this->matrixStr;
-    vector<int> vect;
+    vector<T> vect;
     stringstream s(tmp);
 
     for (int i; s >> i;) {
@@ -135,7 +143,7 @@ class MatrixProblem : public Searchable<T> {
   bool isGoalState(State<T> *st) {
     // running over the str and finding the goal point
     string tmp = this->matrixStr;
-    vector<int> vect;
+    vector<T> vect;
     stringstream s(tmp);
 
     for (int i; s >> i;) {

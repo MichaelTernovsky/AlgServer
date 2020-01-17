@@ -36,7 +36,14 @@ class DFS : public Searcher<T, S> {
 
     while (!stateStack.empty()) {
       State<T> *currState = stateStack.pop();
+      // if is not visited yed
+      if (currState->getIsVisited() == 0) {
+        // mark as visited
+        currState->setIsVisited(1);
 
+        // get the neighbors of currState
+        vector<State<T> *> vct = searchObj->getAllPossibleStates(currState);
+      }
     }
   }
 };
