@@ -4,7 +4,7 @@
 #include "MySerialServer.h"
 #include "FileCacheManager.h"
 #include "OA.h"
-#include "BFS.h"
+#include "BestFS.h"
 using namespace server_side;
 using namespace std;
 
@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 //  int capacity = 5;
 //  CacheManager<string, string> *ch = new FileCacheManager<string, string>(capacity);
 //
-//  Searcher<string, string> *s = new BFS<string, string>();
+//  Searcher<string, string> *s = new BestFS<string, string>();
 //  Solver<string, string> *mySolver = new OA<string, string, string>(s);
 //  ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);
 //

@@ -14,6 +14,7 @@ class Searchable {
   virtual State<T> *getInitialState() {};
   virtual bool isGoalState(State<T> *st) {};
   virtual vector<State<T> *> getAllPossibleStates(State<T> *s) {};
+  virtual bool isEqual (State<T> *st1, State<T> *st2) {};
 };
 
 #endif //EX4__SEARCHABLE_H_
