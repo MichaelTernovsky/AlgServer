@@ -11,7 +11,6 @@ template<typename T, typename S>
 class Searcher {
  public:
   virtual S search(Searchable<T> *searchObj) {};
-  virtual string whereYouComeFrom() {};
 };
 
 #endif //EX4__SEARCHER_H_
