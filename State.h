@@ -19,6 +19,7 @@ class State {
     this->i = i;
     this->j = j;
     this->value = val;
+    this->isVisited = 0;
   }
 
   State(int i, int j, T val, State<T> *father) {
@@ -26,6 +27,7 @@ class State {
     this->j = j;
     this->value = val;
     this->father = father;
+    this->isVisited = 0;
   }
 
   int getI() {
@@ -37,14 +39,14 @@ class State {
   T getValue() {
     return this->value;
   }
+  int getIsVisited() {
+    return this->isVisited;
+  }
   State<T> *getFather() {
     return this->father;
   }
   void *setFather(State<T> *f) {
     this->father = f;
-  }
-  int getIsVisited() {
-    return this->isVisited;
   }
   void setIsVisited(int isVisit) {
     this->isVisited = isVisit;

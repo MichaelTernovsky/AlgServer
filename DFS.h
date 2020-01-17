@@ -16,20 +16,8 @@ class DFS : public Searcher<T, S> {
     return this->runDFS(searchObj->getInitialState());
   }
 
-  void resetVisitedState(Searchable<T> *searchObj) {
-    vector<State<T> *> vct = searchObj->getAllPossibleStates();
-
-    for (int i = 0; i < vct.size(); i++)
-      vct[i].setIsVisited(0);
-  }
-
-  // Searchable<T> *searchObj - graph
-  // State<T> *initPoint - vertex v
   void runDFS(Searchable<T> *searchObj, State<T> *initState) {
     stack<State<T> *> stateStack;
-
-    // reseting the visited field of the stated of the searchable obj
-    this->resetVisitedState(searchObj);
 
     // push the initial state to the stack
     stateStack.push(initState);
@@ -43,6 +31,9 @@ class DFS : public Searcher<T, S> {
 
         // get the neighbors of currState
         vector<State<T> *> vct = searchObj->getAllPossibleStates(currState);
+
+        for (int i = 0; i < vct.size(); i++)
+          stateStack.push(vct[i]);
       }
     }
   }

@@ -33,14 +33,6 @@ class MatrixProblem : public Searchable<T> {
   }
 
   /**
-   * getMatrix - returning the matrix.
-   * vector<vector<int> > - the matrix.
-   */
-  vector<vector<T> > getMatrix() {
-    return this->matrixVct;
-  }
-
-  /**
    * getNumRows - returning the number of rows in the matrix.
    * @return int - the number of rows.
    */
