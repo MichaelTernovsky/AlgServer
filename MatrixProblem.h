@@ -171,32 +171,32 @@ class MatrixProblem : public Searchable<T> {
     int j = st->getJ();
 
     if (i == 0 && j == 0) {
-      state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
-      state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      if (matrixVct[i + 1][j] != -1) state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
     } else if (i == 0 && j != 0) {
-      state1 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
-      state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
-      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      if (matrixVct[i][j + 1] != -1) state1 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      if (matrixVct[i][j - 1] != -1) state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i + 1][j] != -1) state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
     } else if (i != 0 && j == 0) {
-      state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
-      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
-      state3 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      if (matrixVct[i + 1][j] != -1) state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      if (matrixVct[i - 1][j] != -1) state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i][j + 1] != -1) state3 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
     } else if (i == this->rowNum - 1 && j == this->colsNum - 1) {
-      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
-      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i][j - 1] != -1) state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i - 1][j] != -1) state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
     } else if (i == this->rowNum - 1 && j != this->colsNum - 1) {
-      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
-      state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
-      state3 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i][j - 1] != -1) state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      if (matrixVct[i - 1][j] != -1) state3 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
     } else if (i != this->rowNum - 1 && j == this->colsNum - 1) {
-      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
-      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
-      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      if (matrixVct[i][j - 1] != -1) state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i - 1][j] != -1) state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i + 1][j] != -1) state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
     } else {
-      state1 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
-      state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
-      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
-      state4 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      if (matrixVct[i - 1][j] != -1) state1 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      if (matrixVct[i][j - 1] != -1) state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      if (matrixVct[i + 1][j] != -1) state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      if (matrixVct[i][j + 1] != -1)state4 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
     }
 
     if (state1 != NULL) vect.push_back(state1);
