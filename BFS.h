@@ -7,8 +7,8 @@
 
 #include "Searcher.h"
 #include <iostream>
-using namespace std;
 
+using namespace std;
 template<typename T,typename S>
 class BFS : public Searcher<T,S> {
   S search(Searchable<T> *searchObj) {
