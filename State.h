@@ -8,10 +8,29 @@
 template<typename T>
 class State {
  private:
-  T obj;
+  int i;
+  int j;
+  T value;
+  //State<T> father;
+
  public:
-  State(T newObj) {
-    this->obj = newObj;
+  State(int i, int j, T val) {
+    this->i = i;
+    this->j = j;
+    this->value = val;
+  }
+
+  int getI() {
+    return this->i;
+  }
+  int getJ() {
+    return this->j;
+  }
+  T getValue() {
+    return this->value;
+  }
+  State<T> *getFather() {
+    //return this->father;
   }
 };
 

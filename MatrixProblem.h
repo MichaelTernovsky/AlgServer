@@ -10,6 +10,7 @@
 #include <cstring>
 #include <vector>
 #include <sstream>
+
 using namespace std;
 template<typename T>
 class MatrixProblem : public Searchable<T> {
@@ -88,14 +89,112 @@ class MatrixProblem : public Searchable<T> {
     }
   }
 
-  State<T> getInitialState() {
-    cout << "initialState@#R%@#%@" << endl;
+  /**
+   * getInitialState - the function returns the initial state of the matrix.
+   * @return State<T> * - the initial state.
+   */
+  State<T> *getInitialState() {
+    // running over the str and finding the starting point
+    string tmp = this->matrixStr;
+    vector<int> vect;
+    stringstream s(tmp);
+
+    for (int i; s >> i;) {
+      vect.push_back(i);
+      if (s.peek() == ',' || s.peek() == '\n')
+        s.ignore();
+    }
+
+    int vctSize = vect.size();
+    int i = vect[vctSize - 4];
+    int j = vect[vctSize - 3];
+
+    T val = this->matrixVct[i][j];
+
+    State<T> *initState = new State<T>(i, j, val);
+    return initState;
   };
+
+  /**
+ * isGoalState - the function returns the true if the state we get as parameter is the goal state
+ * of the matrix.
+ * @return bool - true if the state we get as parameter is the goal state of the matrix,
+ * and false otherwise.
+ */
   bool isGoalState(State<T> *st) {
-    cout << "goalState@#R%@#%@" << endl;
+    // running over the str and finding the goal point
+    string tmp = this->matrixStr;
+    vector<int> vect;
+    stringstream s(tmp);
+
+    for (int i; s >> i;) {
+      vect.push_back(i);
+      if (s.peek() == ',' || s.peek() == '\n')
+        s.ignore();
+    }
+
+    int vctSize = vect.size();
+    int i = vect[vctSize - 2];
+    int j = vect[vctSize - 1];
+
+    T val = this->matrixVct[i][j];
+
+    State<T> *goalState = new State<T>(i, j, val);
+
+    return ((st->getI() == goalState->getI()) && (st->getJ() == goalState->getJ())
+        && (st->getValue() == goalState->getValue()));
   };
-  State<T> *getAllPossibleStates(State<T> *st) {
-    cout << "getAllPossibleStates@#R%@#%@" << endl;
+
+  /**
+   * getAllPossibleStates - the function returns the neighbors of the state we get as parameter.
+   * @param st - the state.
+   * @return vector<State<T> *> - vector of neighbors.
+   */
+  vector<State<T> *> getAllPossibleStates(State<T> *st) {
+    vector<State<T> *> vect;
+    State<T> *state1 = NULL;
+    State<T> *state2 = NULL;
+    State<T> *state3 = NULL;
+    State<T> *state4 = NULL;
+
+    int i = st->getI();
+    int j = st->getJ();
+
+    if (i == 0 && j == 0) {
+      state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+    } else if (i == 0 && j != 0) {
+      state1 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+    } else if (i != 0 && j == 0) {
+      state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      state3 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+    } else if (i == this->rowNum - 1 && j == this->colsNum - 1) {
+      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+    } else if (i == this->rowNum - 1 && j != this->colsNum - 1) {
+      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+      state3 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+    } else if (i != this->rowNum - 1 && j == this->colsNum - 1) {
+      state1 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      state2 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+    } else {
+      state1 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
+      state2 = new State<T>(i, j - 1, matrixVct[i][j - 1]);
+      state3 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
+      state4 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
+    }
+
+    if (state1 != NULL) vect.push_back(state1);
+    if (state2 != NULL) vect.push_back(state2);
+    if (state3 != NULL) vect.push_back(state3);
+    if (state4 != NULL) vect.push_back(state4);
+
+    return vect;
   };
 };
 
