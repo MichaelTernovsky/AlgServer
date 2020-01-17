@@ -116,6 +116,17 @@ class MatrixProblem : public Searchable<T> {
   };
 
   /**
+   * isEqual - checking if two states are equal.
+   * @param st1 - the first state.
+   * @param st2 - the second state.
+   * @return - true of the states are equl and false otherwise.
+   */
+  bool isEqual(State<T> *st1, State<T> *st2) {
+    return ((st1->getI() == st2->getI()) && (st1->getJ() == st2->getJ())
+        && (st1->getValue() == st2->getValue()));
+  }
+
+  /**
  * isGoalState - the function returns the true if the state we get as parameter is the goal state
  * of the matrix.
  * @return bool - true if the state we get as parameter is the goal state of the matrix,
@@ -141,8 +152,7 @@ class MatrixProblem : public Searchable<T> {
 
     State<T> *goalState = new State<T>(i, j, val);
 
-    return ((st->getI() == goalState->getI()) && (st->getJ() == goalState->getJ())
-        && (st->getValue() == goalState->getValue()));
+    return this->isEqual(st, goalState);
   };
 
   /**
