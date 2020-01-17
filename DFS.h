@@ -55,43 +55,42 @@ class DFS : public Searcher<T, S> {
     if (!pathLst.empty())
       pathLst.push_front(initState);
 
-    string str = "";
-    for (auto x:pathLst) {
-      State<T> *obj = x;
-      str += obj->getValue();
-      str += "->";
+    // creating the path string
+    S str = "";
+    while (!pathLst.empty()) {
+      State<T> *state = pathLst.front();
+      pathLst.pop_front();
+
+      int currI = state->getI();
+      int currJ = state->getJ();
+      if (!pathLst.empty()) {
+        State<T> *state = pathLst.front();
+        pathLst.pop_front();
+        int nextI = state->getI();
+        int nextJ = state->getJ();
+
+        if (currI == nextI - 1) {
+          str += "DOWN -> ";
+        }
+
+        if (currJ == nextJ - 1) {
+          str += "RIGHT -> ";
+        }
+
+        if (currI == nextI + 1) {
+          str += "UP -> ";
+        }
+
+        if (currJ == nextJ + 1) {
+          str += "LEFT -> ";
+        }
+        pathLst.push_front(state);
+
+      } else
+        break;
     }
 
-//    // creating the path string
-//    S str = "";
-//    for (auto x:pathLst) {
-//      State<T> *state = pathLst.front();
-//      pathLst.pop_front();
-//
-//      int currI = state->getI();
-//      int currJ = state->getJ();
-//      if (state->getFather() != NULL) {
-//        int fatherI = state->getFather()->getI();
-//        int fatherJ = state->getFather()->getJ();
-//
-//        if (currI == fatherI + 1) {
-//          str += "UP -> ";
-//        }
-//
-//        if (currJ == fatherJ + 1) {
-//          str += "UP -> ";
-//        }
-//        if (currI == fatherI + 1) {
-//          str += "UP -> ";
-//        }
-//        if (currI == fatherI + 1) {
-//          str += "UP -> ";
-//        }
-//
-//      } else
-//        break;
-//    }
-
+    str += '\n';
     return str;
   }
 
