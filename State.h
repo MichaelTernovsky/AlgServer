@@ -11,13 +11,20 @@ class State {
   int i;
   int j;
   T value;
-  //State<T> father;
+  State<T> *father;
 
  public:
   State(int i, int j, T val) {
     this->i = i;
     this->j = j;
     this->value = val;
+  }
+
+  State(int i, int j, T val, State<T> *father) {
+    this->i = i;
+    this->j = j;
+    this->value = val;
+    this->father = father;
   }
 
   int getI() {
@@ -30,7 +37,10 @@ class State {
     return this->value;
   }
   State<T> *getFather() {
-    //return this->father;
+    return this->father;
+  }
+  void *setFather(State<T> *father) {
+    this->father = father;
   }
 };
 
