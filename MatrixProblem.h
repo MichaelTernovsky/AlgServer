@@ -141,6 +141,10 @@ class MatrixProblem : public Searchable<T> {
 
     State<T> *goalState = new State<T>(i, j, val);
 
+    if (goalState->getValue() == -1) {
+      std::cerr << "goal point is -1" << std::endl;
+    }
+
     return st->isEqual(goalState);
   };
 
@@ -165,11 +169,7 @@ class MatrixProblem : public Searchable<T> {
     } else if (i == this->rowNum - 1 && j == 0) {
       if (matrixVct[i - 1][j] != -1) state1 = new State<T>(i - 1, j, matrixVct[i - 1][j]);
       if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
-    }
-
-
-
-    else if (i == 0 && j == 0) {
+    } else if (i == 0 && j == 0) {
       if (matrixVct[i + 1][j] != -1) state1 = new State<T>(i + 1, j, matrixVct[i + 1][j]);
       if (matrixVct[i][j + 1] != -1) state2 = new State<T>(i, j + 1, matrixVct[i][j + 1]);
     } else if (i == 0 && j != 0) {

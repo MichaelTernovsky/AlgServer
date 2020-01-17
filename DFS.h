@@ -14,84 +14,92 @@ using namespace std;
 template<typename T, typename S>
 class DFS : public Searcher<T, S> {
   S search(Searchable<T> *searchObj) {
-    stack<State<T> *> stateStack;
-    list<State<T> *> lst;
 
-    // push the initial state to the stack
-    State<T> *initState = searchObj->getInitialState();
-    stateStack.push(initState);
+    if (searchObj->getInitialState()->getValue() == -1) {
+      std::cerr << "Initial point is -1" << std::endl;
+      S str = "Initial point is -1\n";
+      return str;
+    } else {
 
-    State<T> *currState = NULL;
-    while (!stateStack.empty()) {
-      currState = stateStack.top();
-      stateStack.pop();
+      stack<State<T> *> stateStack;
+      list<State<T> *> lst;
 
-      if (searchObj->isGoalState(currState)) {
-        break;
-      }
-      // if is not visited yet - not is the list
-      if (!isInList(lst, currState)) {
-        // mark as visited - insert to the list
-        lst.push_front(currState);
+      // push the initial state to the stack
+      State<T> *initState = searchObj->getInitialState();
+      stateStack.push(initState);
 
-        // get the neighbors of currState
-        vector<State<T> *> vct = searchObj->getAllPossibleStates(currState);
+      State<T> *currState = NULL;
+      while (!stateStack.empty()) {
+        currState = stateStack.top();
+        stateStack.pop();
 
-        for (int i = 0; i < vct.size(); i++) {
-          State<T> *neighbor = vct[i];
-          neighbor->setFather(currState); // update the father
-          stateStack.push(vct[i]);
+        if (searchObj->isGoalState(currState)) {
+          break;
+        }
+        // if is not visited yet - not is the list
+        if (!isInList(lst, currState)) {
+          // mark as visited - insert to the list
+          lst.push_front(currState);
+
+          // get the neighbors of currState
+          vector<State<T> *> vct = searchObj->getAllPossibleStates(currState);
+
+          for (int i = 0; i < vct.size(); i++) {
+            State<T> *neighbor = vct[i];
+            neighbor->setFather(currState); // update the father
+            stateStack.push(vct[i]);
+          }
         }
       }
-    }
 
-    list<State<T> *> pathLst;
-    // finding the way from start state to end state
-    while (currState != NULL && currState->getFather() != NULL) {
-      pathLst.push_front(currState);
-      currState = currState->getFather();
-    }
+      list<State<T> *> pathLst;
+      // finding the way from start state to end state
+      while (currState != NULL && currState->getFather() != NULL) {
+        pathLst.push_front(currState);
+        currState = currState->getFather();
+      }
 
-    if (!pathLst.empty())
-      pathLst.push_front(initState);
+      if (!pathLst.empty())
+        pathLst.push_front(initState);
 
-    // creating the path string
-    S str = "";
-    while (!pathLst.empty()) {
-      State<T> *state = pathLst.front();
-      pathLst.pop_front();
-
-      int currI = state->getI();
-      int currJ = state->getJ();
-      if (!pathLst.empty()) {
+      // creating the path string
+      S str = "";
+      while (!pathLst.empty()) {
         State<T> *state = pathLst.front();
         pathLst.pop_front();
-        int nextI = state->getI();
-        int nextJ = state->getJ();
 
-        if (currI == nextI - 1) {
-          str += "DOWN -> ";
-        }
+        int currI = state->getI();
+        int currJ = state->getJ();
+        if (!pathLst.empty()) {
+          State<T> *state = pathLst.front();
+          pathLst.pop_front();
+          int nextI = state->getI();
+          int nextJ = state->getJ();
 
-        if (currJ == nextJ - 1) {
-          str += "RIGHT -> ";
-        }
+          if (currI == nextI - 1) {
+            str += "DOWN -> ";
+          }
 
-        if (currI == nextI + 1) {
-          str += "UP -> ";
-        }
+          if (currJ == nextJ - 1) {
+            str += "RIGHT -> ";
+          }
 
-        if (currJ == nextJ + 1) {
-          str += "LEFT -> ";
-        }
-        pathLst.push_front(state);
+          if (currI == nextI + 1) {
+            str += "UP -> ";
+          }
 
-      } else
-        break;
+          if (currJ == nextJ + 1) {
+            str += "LEFT -> ";
+          }
+          pathLst.push_front(state);
+
+        } else
+          break;
+      }
+
+      str += '\n';
+      return str;
     }
-
-    str += '\n';
-    return str;
   }
 
   bool isInList(list<State<T> *> lst, State<T> *s) {
