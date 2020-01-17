@@ -24,12 +24,14 @@ int main(int argc, char *argv[]) {
                "4,12,2\n"
                "12, 1, 9\n"
                "0,0\n"
-               "36,36\n"
+               "2,2\n"
                "end";
 
-  MatrixProblem<string> *m = new MatrixProblem<string>(str);
-  cout << m->getNumRows() << endl;
-  cout << m->getNumCols() << endl;
+  MatrixProblem<int> *m = new MatrixProblem<int>(str);
+  State<int> *currState = new State<int>(0, 0, 9);
+  State<int> *initState = m->getInitialState();
+  int k = m->isGoalState(currState);
+  vector<State<int> *> vc = m->getAllPossibleStates(currState);
 
   return 0;
 }
