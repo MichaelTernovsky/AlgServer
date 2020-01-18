@@ -12,6 +12,7 @@ class State {
   int j;
   T value;
   State<T> *father;
+  double algCost;
 
  public:
   State(int i, int j, T val) {
@@ -46,6 +47,12 @@ class State {
   bool isEqual(State<T> *st1) {
     return ((st1->getI() == this->getI()) && (st1->getJ() == this->getJ())
         && (st1->getValue() == this->getValue()));
+  }
+  double getAlgCost(){
+    return this->algCost;
+  }
+  double setAlgCost(int c){
+    this->algCost = c;
   }
 };
 
