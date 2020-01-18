@@ -17,11 +17,10 @@ using namespace std;
 using std::priority_queue;
 
 //Comperator to maintaine a min heap.
-  struct Comperator{
+struct Comperator {
   template<typename T>
 
-  bool operator() (State<T> * left, State<T> * right)
-  {
+  bool operator()(State<T> *left, State<T> *right) {
     double leftCost = left->getAlgCost();
     double rightCost = right->getAlgCost();
     return (leftCost > rightCost);
@@ -30,13 +29,12 @@ using std::priority_queue;
 
 typedef struct Comperator Comperator;
 
-template<typename T>
-class MyPriQueue : public priority_queue<State<T> *, std::vector<State<T> *>, Comperator>
-{
+template<typename A>
+class MyPriQueue : public priority_queue<A, std::vector<A>, Comperator> {
  public:
 
-  //remove state from queue and update the priority heap
-  void remove( State<T> *value) {
+//remove state from queue and update the priority heap
+  void remove(State<A> *value) {
     auto it = std::find(this->c.begin(), this->c.end(), value);
     if (it != this->c.end()) {
       this->c.erase(it);
@@ -44,13 +42,12 @@ class MyPriQueue : public priority_queue<State<T> *, std::vector<State<T> *>, Co
     }
   }
 
-  //check if state is at the queue
-  bool isExistOPEN(const T&val) const
-  {
+//check if state is at the queue
+  bool isExistOPEN(const A &val) const {
     auto first = this->c.cbegin();
     auto last = this->c.cend();
-    while (first!=last) {
-      if (*first==val) return true;
+    while (first != last) {
+      if (*first == val) return true;
       ++first;
     }
     return false;
@@ -101,7 +98,7 @@ class BestFS : public Searcher<T, S> {
   //return the trace to the state
   string backTrace(State<T> *n, Searchable<T> *searchObj) {
     list<State<T> *> pathLst;
-    State<T> * nxt = n;
+    State<T> *nxt = n;
     if (nxt != nullptr) {
       pathLst.push_front(nxt);
     }
