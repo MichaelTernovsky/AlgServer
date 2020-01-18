@@ -30,20 +30,10 @@ struct Comperator {
 typedef struct Comperator Comperator;
 
 template<typename A>
-class MyPriQueue : public priority_queue<A, std::vector<A>, Comperator> {
+class MyPriQueue : public priority_queue<A, vector<A>, Comperator> {
  public:
-
-//remove state from queue and update the priority heap
-  void remove(State<A> *value) {
-    auto it = std::find(this->c.begin(), this->c.end(), value);
-    if (it != this->c.end()) {
-      this->c.erase(it);
-      std::make_heap(this->c.begin(), this->c.end(), this->comp);
-    }
-  }
-
 //check if state is at the queue
-  bool isExistOPEN(const A &val) const {
+  bool isExistOPEN(A &val) const {
     auto first = this->c.cbegin();
     auto last = this->c.cend();
     while (first != last) {
@@ -85,7 +75,7 @@ class BestFS : public Searcher<T, S> {
           } else {
             s->setAlgCost(distance);
             //remove From Queue (c)
-            OPEN.remove(s);
+            OPEN = removeFromQ(OPEN, s);
             //when node enters to priority queue it updates the heap
             OPEN.push(s);
           }
@@ -93,6 +83,18 @@ class BestFS : public Searcher<T, S> {
       }
     }
     return "false";
+  }
+
+  MyPriQueue<State<T> *> removeFromQ(MyPriQueue<State<T> *> q, State<T> *s) {
+    MyPriQueue<State<T> *> tmp;
+    while (!q.empty()) {
+      State<T> *x = q.top();
+      q.pop();
+      if (x != s) {
+        tmp.push(x);
+      }
+    }
+    return tmp;
   }
 
   //return the trace to the state

@@ -15,7 +15,6 @@ int main(int argc, char *argv[]) {
   int capacity = 5;
   CacheManager<string, string> *ch = new FileCacheManager<string, string>(capacity);
 
-//  Searcher<int, string> *s = new BFS<int, string>();
   Searcher<int, string> *s = new BestFS<int, string>();
   Solver<string, string> *mySolver = new OA<string, string, int>(s);
   ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);

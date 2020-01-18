@@ -20,6 +20,7 @@ class State {
     this->j = j;
     this->value = val;
     this->father = nullptr;
+    algCost = 0;
   }
 
   State(int i, int j, T val, State<T> *father) {
@@ -28,6 +29,7 @@ class State {
     this->value = val;
     this->father = father;
     this->father = nullptr;
+    algCost = 0;
   }
   int getI() {
     return this->i;
@@ -48,10 +50,10 @@ class State {
     return ((st1->getI() == this->getI()) && (st1->getJ() == this->getJ())
         && (st1->getValue() == this->getValue()));
   }
-  double getAlgCost(){
+  double getAlgCost() {
     return this->algCost;
   }
-  double setAlgCost(int c){
+  double setAlgCost(int c) {
     this->algCost = c;
   }
 };
