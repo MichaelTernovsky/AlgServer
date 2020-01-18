@@ -10,6 +10,7 @@
 #include <cstring>
 #include <vector>
 #include <sstream>
+#include <list>
 
 using namespace std;
 template<typename T>
@@ -113,7 +114,7 @@ class MatrixProblem : public Searchable<T> {
 
     State<T> *initState = new State<T>(i, j, val);
     return initState;
-  };
+  }
 
   /**
  * isGoalState - the function returns the true if the state we get as parameter is the goal state
@@ -146,7 +147,7 @@ class MatrixProblem : public Searchable<T> {
     }
 
     return st->isEqual(goalState);
-  };
+  }
 
   /**
    * getAllPossibleStates - the function returns the neighbors of the state we get as parameter.
@@ -204,7 +205,63 @@ class MatrixProblem : public Searchable<T> {
     if (state4 != NULL) vect.push_back(state4);
 
     return vect;
-  };
+  }
+
+  /**
+   * createSolution - creating the string of the path by the path list we get.
+   * @param pathLst - the list of states that represents the path.
+   * @return string - string of the path.
+   */
+  string createSolution(list<State<T> *> pathLst) {
+    string str = "";
+    int cost = 0;
+    while (!pathLst.empty()) {
+      State<T> *state = pathLst.front();
+
+      pathLst.pop_front();
+      cost += state->getValue();
+
+      int currI = state->getI();
+      int currJ = state->getJ();
+      if (!pathLst.empty()) {
+        State<T> *state = pathLst.front();
+        pathLst.pop_front();
+        int nextI = state->getI();
+        int nextJ = state->getJ();
+
+        cost += state->getValue();
+
+        if (currI == nextI - 1) {
+          str += "DOWN(";
+        }
+
+        if (currJ == nextJ - 1) {
+          str += "RIGHT(";
+        }
+
+        if (currI == nextI + 1) {
+          str += "UP(";
+        }
+
+        if (currJ == nextJ + 1) {
+          str += "LEFT(";
+        }
+
+        pathLst.push_front(state);
+
+        str += to_string(cost);
+        str += ")-";
+
+        cost -= state->getValue();
+
+      } else
+        break;
+    }
+
+    string newStr = str.substr(0, str.size() - 1);
+    newStr += '\n';
+    return newStr;
+  }
 };
 
 #endif //EX4__MATRIXPROBLEM_H_

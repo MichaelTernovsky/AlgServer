@@ -62,42 +62,7 @@ class DFS : public Searcher<T, S> {
       if (!pathLst.empty())
         pathLst.push_front(initState);
 
-      // creating the path string
-      S str = "";
-      while (!pathLst.empty()) {
-        State<T> *state = pathLst.front();
-        pathLst.pop_front();
-
-        int currI = state->getI();
-        int currJ = state->getJ();
-        if (!pathLst.empty()) {
-          State<T> *state = pathLst.front();
-          pathLst.pop_front();
-          int nextI = state->getI();
-          int nextJ = state->getJ();
-
-          if (currI == nextI - 1) {
-            str += "DOWN -> ";
-          }
-
-          if (currJ == nextJ - 1) {
-            str += "RIGHT -> ";
-          }
-
-          if (currI == nextI + 1) {
-            str += "UP -> ";
-          }
-
-          if (currJ == nextJ + 1) {
-            str += "LEFT -> ";
-          }
-          pathLst.push_front(state);
-
-        } else
-          break;
-      }
-
-      str += '\n';
+      string str = searchObj->createSolution(pathLst);
       return str;
     }
   }

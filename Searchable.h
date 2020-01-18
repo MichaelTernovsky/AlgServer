@@ -6,6 +6,8 @@
 #define EX4__SEARCHABLE_H_
 #include "State.h"
 #include <vector>
+#include <string>
+#include <list>
 using namespace std;
 
 template<typename T>
@@ -14,7 +16,8 @@ class Searchable {
   virtual State<T> *getInitialState() {};
   virtual bool isGoalState(State<T> *st) {};
   virtual vector<State<T> *> getAllPossibleStates(State<T> *s) {};
-  virtual bool isEqual (State<T> *st1, State<T> *st2) {};
+  virtual bool isEqual(State<T> *st1, State<T> *st2) {};
+  virtual string createSolution(list<State<T> *> pathLst) {};
 };
 
 #endif //EX4__SEARCHABLE_H_
