@@ -16,21 +16,31 @@
 using namespace std;
 using std::priority_queue;
 
+//Comperator to maintaine a min heap.
+  struct Comperator{
+  template<typename T>
+
+  bool operator() (State<T> * left, State<T> * right)
+  {
+    double leftCost = left->getAlgCost();
+    double rightCost = right->getAlgCost();
+    return (leftCost > rightCost);
+  }
+};
+
+typedef struct Comperator Comperator;
+
 template<typename T>
-class MyPriQueue : public std::priority_queue<T, std::vector<T>>
+class MyPriQueue : public priority_queue<State<T> *, std::vector<State<T> *>, Comperator>
 {
  public:
 
   //remove state from queue and update the priority heap
-  bool remove(const T& value) {
+  void remove( State<T> *value) {
     auto it = std::find(this->c.begin(), this->c.end(), value);
     if (it != this->c.end()) {
       this->c.erase(it);
       std::make_heap(this->c.begin(), this->c.end(), this->comp);
-      return true;
-    }
-    else {
-      return false;
     }
   }
 
