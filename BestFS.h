@@ -64,8 +64,9 @@ class BestFS : public Searcher<T, S> {
       }
       vector<State<T> *> successors = searchObj->getAllPossibleStates(n);
       for (State<T> *s:successors) {
-        double distance = n->getAlgCost() + s->getAlgCost();
+        double distance = n->getAlgCost() + s->getValue();
         if (!this->isExistClosed(searchObj, s) && !OPEN.isExistOPEN(s)) {
+          s->setAlgCost(distance);
           s->setFather(n);
           //update the cost of s to distance. (made function set algcost.).
           OPEN.push(s);
@@ -101,10 +102,11 @@ class BestFS : public Searcher<T, S> {
   string backTrace(State<T> *n, Searchable<T> *searchObj) {
     list<State<T> *> pathLst;
     State<T> *nxt = n;
+    State<T> *start= searchObj->getInitialState();
     if (nxt != nullptr) {
       pathLst.push_front(nxt);
     }
-    while (nxt != searchObj->getInitialState()) {
+    while (!nxt->isEqual(start)) {
       nxt = nxt->getFather();
       pathLst.push_front(nxt);
     }
@@ -114,21 +116,14 @@ class BestFS : public Searcher<T, S> {
   //check if state is at the vector
   bool isExistClosed(Searchable<T> *searchObj, State<T> *state) {
     for (auto s:CLOSED) {
-      if (searchObj->isEqual(s, state)) {
+      if (s->isEqual(state)) {
         return true;
       }
     }
     return false;
   }
   //check if state is at the queue
-//  bool isExistOPEN(Searchable<T> *searchObj, State<T> *state) {
-//    for (auto s:OPEN) {
-//      if (searchObj->isEqual(s, state)) {
-//        return true;
-//      }
-//    }
-//    return false;
-//  }
+
 };
 
 #endif //EX4__BESTFS_H_
