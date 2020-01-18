@@ -11,8 +11,8 @@
 
 string SocketInputStream::readFromStream() {
   //reading from client
-  char buffer[2048] = {0};
-  int valread = read(this->socket, buffer, 2048);
+  char buffer[1024] = {0};
+  int valread = read(this->socket, buffer, 1024);
   return buffer;
 }
 

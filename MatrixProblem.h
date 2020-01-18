@@ -56,14 +56,17 @@ class MatrixProblem : public Searchable<T> {
   int getNumCols() {
     string tmp = this->matrixStr;
     int i = 0;
-    int countRows = 0;
+    int countCols = 0;
 
     while (tmp[i] != '\n' && tmp[i] != '\r') {
-      if (tmp[i] != ',')
-        countRows++;
-      i++;
+      if (tmp[i] != ',' && tmp[i] != '-')
+        countCols++;
+      if (isdigit(tmp[i]) && isdigit(tmp[i + 1]))
+        i += 2;
+      else
+        i++;
     }
-    return countRows;
+    return countCols;
   }
 
   /**
@@ -214,7 +217,7 @@ class MatrixProblem : public Searchable<T> {
    */
   string createSolution(list<State<T> *> pathLst) {
     string str = "";
-    int cost = 0;
+    long cost = 0;
     while (!pathLst.empty()) {
       State<T> *state = pathLst.front();
 
