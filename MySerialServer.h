@@ -52,21 +52,19 @@ class MySerialServer : Server {
     while (true) {
 
       struct timeval tv;
-      tv.tv_sec = 10;
+      tv.tv_sec = 120;
       setsockopt(sockIn, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
 
       client_socket = accept(sockIn, (struct sockaddr *) &address,
                              (socklen_t *) &address);
 
       if (client_socket == -1) {
-        std::cerr << "Error accepting client" << std::endl;
-        exit(1);
+        std::cerr << "Time out - error accepting client" << std::endl;
+        exit(0);
       }
 
       client_handler->handleClient(new SocketInputStream(client_socket),
                                    new SocketOutputStream(client_socket));
-
-      this->stop();
     }
   }
 

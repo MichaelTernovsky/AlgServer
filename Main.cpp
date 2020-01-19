@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 
   MySerialServer *mySerial = new MySerialServer();
   mySerial->open(port, clientHand);
+  mySerial->stop();
 
   return 0;
 }
