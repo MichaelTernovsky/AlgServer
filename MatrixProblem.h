@@ -153,6 +153,37 @@ class MatrixProblem : public Searchable<T> {
   }
 
   /**
+* getGoalState - the function returns the goal state object
+* @return State<T> *st - goal state
+*/
+  State<T> *getGoalState() {
+    // running over the str and finding the goal point
+    string tmp = this->matrixStr;
+    vector<T> vect;
+    stringstream s(tmp);
+
+    for (int i; s >> i;) {
+      vect.push_back(i);
+      if (s.peek() == ',' || s.peek() == '\n')
+        s.ignore();
+    }
+
+    int vctSize = vect.size();
+    int i = vect[vctSize - 2];
+    int j = vect[vctSize - 1];
+
+    T val = this->matrixVct[i][j];
+
+    State<T> *goalState = new State<T>(i, j, val);
+
+    if (goalState->getValue() == -1) {
+      std::cerr << "goal point is -1" << std::endl;
+    }
+
+    return goalState;
+  }
+
+  /**
    * getAllPossibleStates - the function returns the neighbors of the state we get as parameter.
    * @param st - the state.
    * @return vector<State<T> *> - vector of neighbors.

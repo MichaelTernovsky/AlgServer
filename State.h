@@ -13,6 +13,7 @@ class State {
   T value;
   State<T> *father;
   double algCost;
+  double Hcost;
 
  public:
   State(int i, int j, T val) {
@@ -21,6 +22,7 @@ class State {
     this->value = val;
     this->father = nullptr;
     algCost = 0;
+    Hcost = 0;
   }
 
   State(int i, int j, T val, State<T> *father) {
@@ -30,6 +32,7 @@ class State {
     this->father = father;
     this->father = nullptr;
     algCost = 0;
+    Hcost = 0;
   }
   int getI() {
     return this->i;
@@ -53,9 +56,17 @@ class State {
   double getAlgCost() {
     return this->algCost;
   }
-  double setAlgCost(int c) {
+  double setAlgCost(double c) {
     this->algCost = c;
   }
+
+  double getHCost(){
+    return this->Hcost;
+  }
+  double setHCost(double hc){
+    this->Hcost = hc;
+  }
+
 };
 
 #endif //EX4__STATE_H_
