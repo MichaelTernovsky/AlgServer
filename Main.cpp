@@ -2,6 +2,7 @@
 #include "MyClientHandler.h"
 #include "Server.h"
 #include "MySerialServer.h"
+#include "MyParallelServer.h"
 #include "FileCacheManager.h"
 #include "OA.h"
 #include "DFS.h"
@@ -19,8 +20,9 @@ int main(int argc, char *argv[]) {
   Solver<string, string> *mySolver = new OA<string, string, int>(s);
   ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);
 
-  MySerialServer *mySerialServ = new MySerialServer();
-  mySerialServ->open(port, clientHand);
+//  MySerialServer *mySerialServ = new MySerialServer();
+  MyParallelServer *my_parallel_server = new MyParallelServer();
+  my_parallel_server->open(port, clientHand);
 
   return 0;
 }

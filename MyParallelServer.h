@@ -10,17 +10,20 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include "AlgServer.h"
-
+#include <mutex>
 using namespace server_side;
 extern int client_socket;
 
   class MyParallelServer : Server {
    private:
     int isStop = 0;
-
+    int NumOfClients = 0;
    public:
-    void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
 
+    mutex mutex_lock;
+
+    void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
+      mutex_lock.lock();
       //create socket
       int sockIn = socket(AF_INET, SOCK_STREAM, 0); //socket for input
       if (sockIn == -1) {
@@ -65,29 +68,45 @@ extern int client_socket;
                                      new SocketOutputStream(client_socket));
 
         this->stop();
+        mutex_lock.unlock();
       }
     }
 
     int open(int port, ClientHandler *c) {
-      //
-      //
-      //
-      //Handel here with parallel clients with queue..
-      //Michael YA BolBol
-      //
-      //
-      thread ServerThread(&MyParallelServer::runExucteMethosAsThread, this, port, c);
-      ServerThread.join();
-      while (this->isStop == 0) {
+
+        thread ServerThread1(&MyParallelServer::runExucteMethosAsThread, this, port, c);
+      cout<<"OPEN NEW THREAD"<<endl;
+      ServerThread1.join();
+
+      thread ServerThread2(&MyParallelServer::runExucteMethosAsThread, this, port, c);
+      cout<<"OPEN NEW THREAD"<<endl;
+      ServerThread2.join();
+
+      thread ServerThread3(&MyParallelServer::runExucteMethosAsThread, this, port, c);
+      cout<<"OPEN NEW THREAD"<<endl;
+      ServerThread3.join();
+
+      while (this->NumOfClients <=2) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
       }
       return 1;
     }
 
     void stop() {
-      this->isStop = 1;
+      this->NumOfClients++;
       close(client_socket); //closing the listening socket
     }
+
+//      while (this->isStop == 0) {
+//        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//      }
+//      return 1;
+//    }
+
+//    void stop() {
+//      this->isStop = 1;
+//      close(client_socket); //closing the listening socket
+//    }
   };
 
 
