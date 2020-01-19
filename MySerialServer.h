@@ -65,15 +65,13 @@ class MySerialServer : Server {
 
       client_handler->handleClient(new SocketInputStream(client_socket),
                                    new SocketOutputStream(client_socket));
+      this->stop();
     }
   }
 
   int open(int port, ClientHandler *c) {
     thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
     ServerThread.join();
-    while (this->isStop == 0) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
     return 1;
   }
 

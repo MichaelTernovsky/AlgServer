@@ -1,8 +1,8 @@
 //
 // Created by michael on 09/01/2020.
 //
-#ifndef EX4__MYSERIALSERVER_H_
-#define EX4__MYSERIALSERVER_H_
+#ifndef EX4__MYPARALLELSERVER_H_
+#define EX4__MYPARALLELSERVER_H_
 #include "Server.h"
 #include <thread>
 #include <netinet/in.h>
@@ -13,12 +13,12 @@
 
 using namespace server_side;
 extern int client_socket;
-extern queue<int> clientQueue;
-mutex mutex_lock;
 
-class MySerialServer : Server {
+class MyParallelServer : Server {
  private:
   int isStop = 0;
+  mutex mutex_lock;
+  queue<int> clientQueue;
 
  public:
   void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
@@ -69,17 +69,17 @@ class MySerialServer : Server {
       }
 
       // adding the request to the queue
-      clientQueue.push(client_socket);
+      this->clientQueue.push(client_socket);
     }
   }
 
   // handling request
   void handleRequest(queue<int> q, ClientHandler *client_handler) {
     // locking the thread
-    mutex_lock.lock();
+    this->mutex_lock.lock();
     if (!q.empty()) {
       int clientSocket = q.front();
-      mutex_lock.unlock(); // unlocking the thread
+      this->mutex_lock.unlock(); // unlocking the thread
       q.pop();
 
       client_handler->handleClient(new SocketInputStream(clientSocket),
@@ -88,15 +88,17 @@ class MySerialServer : Server {
   }
 
   int open(int port, ClientHandler *c) {
-    thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    // accepting clients loop
+    thread ServerThread(&MyParallelServer::runExucteMethosAsThread, this, port, c);
 
-
-    // clients threads
-    thread ClientsThread1(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    thread ClientsThread2(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    thread ClientsThread3(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    thread ClientsThread4(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    thread ClientsThread5(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    while (!isStop) {
+      // clients threads
+      thread ClientsThread1(&MyParallelServer::handleRequest, this, clientQueue, c);
+      thread ClientsThread2(&MyParallelServer::handleRequest, this, clientQueue, c);
+      thread ClientsThread3(&MyParallelServer::handleRequest, this, clientQueue, c);
+      thread ClientsThread4(&MyParallelServer::handleRequest, this, clientQueue, c);
+      thread ClientsThread5(&MyParallelServer::handleRequest, this, clientQueue, c);
+    }
 
     return 1;
   }
