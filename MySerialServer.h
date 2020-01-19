@@ -50,6 +50,11 @@ class MySerialServer : Server {
     }
     int timeOutCheck = 0;
     while (true) {
+
+      struct timeval tv;
+      tv.tv_sec = 10;
+      setsockopt(sockIn, SOL_SOCKET, SO_RCVTIMEO, (const char *) &tv, sizeof tv);
+
       client_socket = accept(sockIn, (struct sockaddr *) &address,
                              (socklen_t *) &address);
 

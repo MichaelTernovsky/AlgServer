@@ -20,9 +20,8 @@ int main(int argc, char *argv[]) {
   Solver<string, string> *mySolver = new OA<string, string, int>(s);
   ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);
 
-//  MySerialServer *mySerialServ = new MySerialServer();
-  MyParallelServer *my_parallel_server = new MyParallelServer();
-  my_parallel_server->open(port, clientHand);
+  MySerialServer *mySerial = new MySerialServer();
+  mySerial->open(port, clientHand);
 
   return 0;
 }
