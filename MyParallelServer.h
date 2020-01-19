@@ -8,8 +8,13 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include "AlgServer.h"
+#include <queue>
+#include <mutex>
+
 using namespace server_side;
 extern int client_socket;
+extern queue<int> clientQueue;
+mutex mutex_lock;
 
 class MySerialServer : Server {
  private:
@@ -63,17 +68,36 @@ class MySerialServer : Server {
         exit(0);
       }
 
-      client_handler->handleClient(new SocketInputStream(client_socket),
-                                   new SocketOutputStream(client_socket));
+      // adding the request to the queue
+      clientQueue.push(client_socket);
+    }
+  }
+
+  // handling request
+  void handleRequest(queue<int> q, ClientHandler *client_handler) {
+    // locking the thread
+    mutex_lock.lock();
+    if (!q.empty()) {
+      int clientSocket = q.front();
+      mutex_lock.unlock(); // unlocking the thread
+      q.pop();
+
+      client_handler->handleClient(new SocketInputStream(clientSocket),
+                                   new SocketOutputStream(clientSocket));
     }
   }
 
   int open(int port, ClientHandler *c) {
     thread ServerThread(&MySerialServer::runExucteMethosAsThread, this, port, c);
-    ServerThread.join();
-    while (this->isStop == 0) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
+
+
+    // clients threads
+    thread ClientsThread1(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    thread ClientsThread2(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    thread ClientsThread3(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    thread ClientsThread4(&MySerialServer::runExucteMethosAsThread, this, port, c);
+    thread ClientsThread5(&MySerialServer::runExucteMethosAsThread, this, port, c);
+
     return 1;
   }
 

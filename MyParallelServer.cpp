@@ -3,3 +3,6 @@
 //
 
 #include "MyParallelServer.h"
+
+extern int client_socket;
+extern queue<int> clientQueue;
