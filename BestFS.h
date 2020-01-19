@@ -83,7 +83,7 @@ class BestFS : public Searcher<T, S> {
         }
       }
     }
-    return "false";
+    return "There is no valid path\n";
   }
 
   MyPriQueue<State<T> *> removeFromQ(MyPriQueue<State<T> *> q, State<T> *s) {
