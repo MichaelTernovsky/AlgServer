@@ -10,6 +10,7 @@
 #include "Server.h"
 #include "AlgServer.h"
 #include "MatrixProblem.h"
+
 using namespace server_side;
 
 template<typename P, typename S>
@@ -20,6 +21,7 @@ class MyClientHandler : public ClientHandler {
  public:
   MyClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch);
   void handleClient(InputStream *input_stream, OutPutStream *out_put_stream);
+  bool endsWith(string s1, string s2);
 };
 
 /**
@@ -31,6 +33,17 @@ template<typename P, typename S>
 MyClientHandler<P, S>::MyClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch) {
   this->s = s;
   this->ch = ch;
+}
+
+template<typename P, typename S>
+bool MyClientHandler<P, S>::endsWith(string s1, string s2) {
+  int n1 = s1.length(), n2 = s2.length();
+  if (n1 > n2)
+    return false;
+  for (int i = 0; i < n1; i++)
+    if (s1[n1 - i - 1] != s2[n2 - i - 1])
+      return false;
+  return true;
 }
 
 /**
@@ -45,8 +58,13 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
   S solution;
   string str = "";
 
+  string endStr1 = "end\r\n";
+  string endStr2 = "end\n";
+  string endStr3 = "end\r";
+  string endStr4 = "end\n\r";
   string tmp = input_stream->readFromStream();
-  while (tmp != "end\r\n") {
+
+  while (!endsWith(endStr1, tmp) && !endsWith(endStr2, tmp) && !endsWith(endStr3, tmp) && !endsWith(endStr4, tmp)) {
     str += tmp;
     tmp = input_stream->readFromStream();
   }
