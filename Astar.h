@@ -15,7 +15,6 @@
 #include "BestFS.h"
 #include <map>
 
-
 using namespace std;
 using std::priority_queue;
 
@@ -84,7 +83,7 @@ class Astar : public Searcher<T, S> {
   string backTrace(State<T> *n, Searchable<T> *searchObj) {
     list<State<T> *> pathLst;
     State<T> *nxt = n;
-    State<T> *start= searchObj->getInitialState();
+    State<T> *start = searchObj->getInitialState();
     if (nxt != nullptr) {
       pathLst.push_front(nxt);
     }
@@ -109,7 +108,6 @@ class Astar : public Searcher<T, S> {
   void setHeuristic(Searchable<T> *searchObj) {
     State<T> *state;
     State<T> *goalState = searchObj->getGoalState();
-    State<T> *states = searchObj->allStates();
     vector<State<T> *> mapOfStates = searchObj->getStates();
     for (auto state:mapOfStates) {
       //run over all the states.
@@ -125,10 +123,10 @@ class Astar : public Searcher<T, S> {
     }
   }
 
-    Searcher<T,S>*createClone(){
+  Searcher<T, S> *createClone() {
     return new Astar;
   }
-  };
+};
 
 #endif //EX4__ASTAR_H_
 
