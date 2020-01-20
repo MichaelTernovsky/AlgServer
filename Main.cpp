@@ -8,6 +8,7 @@
 #include "DFS.h"
 #include "BFS.h"
 #include "BestFS.h"
+#include "Astar.h"
 
 using namespace server_side;
 using namespace std;
@@ -21,7 +22,7 @@ int main(int argc, char *argv[]) {
   Solver<string, string> *mySolver = new OA<string, string, int>(s);
   ClientHandler *clientHand = new MyClientHandler<string, string>(mySolver, ch);
 
-  MyParallelServer *myPa = new MyParallelServer();
+  MySerialServer *myPa = new MySerialServer();
   myPa->open(port, clientHand);
   myPa->stop();
 
