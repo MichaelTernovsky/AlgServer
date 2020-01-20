@@ -14,6 +14,7 @@
 #include <iterator>
 #include "BestFS.h"
 #include <map>
+#include <cmath>
 
 using namespace std;
 using std::priority_queue;
@@ -111,7 +112,6 @@ class Astar : public Searcher<T, S> {
     vector<State<T> *> mapOfStates = searchObj->getStates();
     for (auto state:mapOfStates) {
       //run over all the states
-
 //      double minX = std::min(state->getI(), goalState->getI());
 //      double maxX = std::max(state->getI(), goalState->getI());
 //      double minY = std::min(state->getJ(), goalState->getJ());
