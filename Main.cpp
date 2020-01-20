@@ -7,6 +7,7 @@
 #include "OA.h"
 #include "DFS.h"
 #include "BFS.h"
+#include "Astar.h"
 #include "BestFS.h"
 
 using namespace server_side;

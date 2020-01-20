@@ -10,6 +10,9 @@
 #include "Server.h"
 #include "AlgServer.h"
 #include "MatrixProblem.h"
+#include <mutex>
+
+extern mutex clientLocker;
 
 using namespace server_side;
 
@@ -53,7 +56,7 @@ bool MyClientHandler<P, S>::endsWith(string s1, string s2) {
  */
 template<typename P, typename S>
 void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
-
+  clientLocker.lock();
   // reading the problem from the input
   S solution;
   string str = "";
@@ -85,6 +88,7 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
 
   // writing the solution to the output
   out_put_stream->writeToStream(solution);
+  clientLocker.unlock();
 }
 
 #endif //EX4__MYCLIENTHANDLER_H_
