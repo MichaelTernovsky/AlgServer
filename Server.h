@@ -23,6 +23,7 @@ class OutPutStream {
 class ClientHandler {
  public:
   virtual void handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {};
+  virtual ClientHandler *createClone() {};
 };
 
 class Server {

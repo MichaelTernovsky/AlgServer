@@ -13,6 +13,7 @@ class Solver {
  public:
   // the method gets problem P and returns solution S
   virtual S solve(P p) {};
+  virtual Solver<P, S> *createClone() {};
 };
 
 #endif //EX4__SOLVER_H_

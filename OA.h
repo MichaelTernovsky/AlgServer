@@ -23,7 +23,11 @@ class OA : public Solver<P, S> {
   S solve(P p) {
     MatrixProblem<T> *problem = new MatrixProblem<T>(p);
     return this->searcher->search(problem);
-  };
+  }
+
+  Solver<P, S> *createClone() {
+    return new OA(this->searcher->createClone());
+  }
 };
 
 #endif //EX4__OA_H_

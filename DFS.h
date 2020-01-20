@@ -78,6 +78,10 @@ class DFS : public Searcher<T, S> {
     }
     return false;
   }
+
+  Searcher<T, S> *createClone() {
+    return new DFS();
+  }
 };
 
 #endif //EX4__DFS_H_

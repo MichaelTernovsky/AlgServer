@@ -102,7 +102,7 @@ class BestFS : public Searcher<T, S> {
   string backTrace(State<T> *n, Searchable<T> *searchObj) {
     list<State<T> *> pathLst;
     State<T> *nxt = n;
-    State<T> *start= searchObj->getInitialState();
+    State<T> *start = searchObj->getInitialState();
     if (nxt != nullptr) {
       pathLst.push_front(nxt);
     }
@@ -122,8 +122,10 @@ class BestFS : public Searcher<T, S> {
     }
     return false;
   }
-  //check if state is at the queue
 
+  Searcher<T, S> *createClone() {
+    return new BestFS();
+  }
 };
 
 #endif //EX4__BESTFS_H_

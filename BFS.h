@@ -78,6 +78,10 @@ class BFS : public Searcher<T, S> {
     }
     return false;
   }
+
+  Searcher<T, S> *createClone() {
+    return new BFS();
+  }
 };
 
 #endif //EX4__BFS_H_

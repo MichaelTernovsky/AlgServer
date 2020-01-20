@@ -10,6 +10,7 @@
 #include "Server.h"
 #include "AlgServer.h"
 #include "MatrixProblem.h"
+#include <mutex>
 
 using namespace server_side;
 
@@ -18,10 +19,13 @@ class MyClientHandler : public ClientHandler {
  private:
   Solver<P, S> *s; // P - problem and S - solution
   CacheManager<P, S> *ch;
+  mutex locker;
+
  public:
   MyClientHandler(Solver<P, S> *s, CacheManager<P, S> *ch);
   void handleClient(InputStream *input_stream, OutPutStream *out_put_stream);
   bool endsWith(string s1, string s2);
+  MyClientHandler<P, S> *createClone();
 };
 
 /**
@@ -71,6 +75,7 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
     tmp = input_stream->readFromStream();
   }
 
+  locker.lock();
   // creating the matrix from the string we get from the client
   if (this->ch->isExist(str) == 1) {
     // if the solution is available - return it
@@ -86,6 +91,12 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
 
   // writing the solution to the output
   out_put_stream->writeToStream(solution);
+  locker.unlock();
+}
+
+template<typename P, typename S>
+MyClientHandler<P, S> *MyClientHandler<P, S>::createClone() {
+  return new MyClientHandler<P, S>(this->s->createClone(), this->ch);
 }
 
 #endif //EX4__MYCLIENTHANDLER_H_
