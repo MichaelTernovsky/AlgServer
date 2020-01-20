@@ -321,12 +321,17 @@ class MatrixProblem : public Searchable<T> {
 
   /**
    * getStateByIndex - the function gets i and j indexes and returns a pointer to the current state.
-   * @param i
-   * @param j
-   * @return
+   * @param i - i index.
+   * @param j -j index.
+   * @return State<T> * - the pointer to the state.
    */
   State<T> *getStateByIndex(int i, int j) {
-
+    for (int k = 0; k < this->states.size(); k++) {
+      State<T> *state = this->states[k];
+      if (state->getI() == i && state->getJ() == j && state->getValue() == this->matrixVct[i][j]) {
+        return state;
+      }
+    }
   }
 
 };
