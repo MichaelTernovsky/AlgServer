@@ -20,6 +20,7 @@ class MatrixProblem : public Searchable<T> {
   int colsNum;
   int rowNum;
   vector<vector<T> > matrixVct;
+  vector<State<T> *> states;
 
  public:
   /**
@@ -31,6 +32,7 @@ class MatrixProblem : public Searchable<T> {
     this->rowNum = this->getNumRows();
     this->colsNum = this->getNumCols();
     this->creatingMatrixVector();
+    this->createStates();
   }
 
   /**
@@ -296,6 +298,37 @@ class MatrixProblem : public Searchable<T> {
     newStr += '\n';
     return newStr;
   }
+
+  /**
+   * createStates - the function creates vector of states* by the matrix values.
+   */
+  void createStates() {
+    for (int i = 0; i < this->rowNum; i++) {
+      for (int j = 0; j < this->colsNum; j++) {
+        State<T> *state = new State<T>(i, j, matrixVct[i][j]);
+        this->states.push_back(state);
+      }
+    }
+  }
+
+  /**
+   * getStates - returns the states vector.
+   * @return vector<State<T> *> - the states vector.
+   */
+  vector<State<T> *> getStates() {
+    return this->states;
+  }
+
+  /**
+   * getStateByIndex - the function gets i and j indexes and returns a pointer to the current state.
+   * @param i
+   * @param j
+   * @return
+   */
+  State<T> *getStateByIndex(int i, int j) {
+
+  }
+
 };
 
 #endif //EX4__MATRIXPROBLEM_H_

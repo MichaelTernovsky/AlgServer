@@ -19,6 +19,8 @@ class Searchable {
   virtual vector<State<T> *> getAllPossibleStates(State<T> *s) {};
   virtual bool isEqual(State<T> *st1, State<T> *st2) {};
   virtual string createSolution(list<State<T> *> pathLst) {};
+  virtual vector<State<T> *> getStates() {};
+
 };
 
 #endif //EX4__SEARCHABLE_H_
