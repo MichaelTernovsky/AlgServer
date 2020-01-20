@@ -13,6 +13,9 @@
 #include <set>
 #include <iterator>
 #include "BestFS.h"
+#include <map>
+
+
 using namespace std;
 using std::priority_queue;
 
@@ -29,6 +32,7 @@ class Astar : public Searcher<T, S> {
     State<T> *n;
     State<T> *start = searchObj->getInitialState();
     State<T> *gs = searchObj->getGoalState();
+    setHeuristic(searchObj);
     start->setAlgCost(0);
     OPEN.push(start);
     while (!OPEN.empty()) {
@@ -40,9 +44,6 @@ class Astar : public Searcher<T, S> {
       }
       vector<State<T> *> successors = searchObj->getAllPossibleStates(n);
       for (State<T> *s:successors) {
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        this->setHeuristic(s,gs);
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         double distance = n->getAlgCost() + s->getValue() + s->getHCost();
 
@@ -105,18 +106,28 @@ class Astar : public Searcher<T, S> {
   }
 
   //evaluate the heuristic function with a sort of euqlidic distance.
-  void setHeuristic(State<T> *state, State<T> *goalState){
-
-      double minX = std::min (state->getI(),goalState->getI());
-      double maxX = std::max (state->getI(),goalState->getI());
-      double minY = std::min (state->getJ(),goalState->getJ());
-      double maxY = std::max (state->getJ(),goalState->getJ());
+  void setHeuristic(Searchable<T> *searchObj) {
+    State<T> *state;
+    State<T> *goalState = searchObj->getGoalState();
+    State<T> *states = searchObj->allStates();
+    vector<State<T> *> mapOfStates = searchObj->getStates();
+    for (auto state:mapOfStates) {
+      //run over all the states.
+      double minX = std::min(state->getI(), goalState->getI());
+      double maxX = std::max(state->getI(), goalState->getI());
+      double minY = std::min(state->getJ(), goalState->getJ());
+      double maxY = std::max(state->getJ(), goalState->getJ());
 
       double absX = maxX - minX;
       double absY = maxY - minY;
-      double h = std::max(absX,absY);
+      double h = std::max(absX, absY);
       state->setHCost(h);
     }
+  }
+
+    Searcher<T,S>*createClone(){
+    return new Astar;
+  }
   };
 
 #endif //EX4__ASTAR_H_
