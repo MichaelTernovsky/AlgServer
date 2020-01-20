@@ -3,5 +3,3 @@
 //
 
 #include "MyClientHandler.h"
-
-mutex clientLocker;

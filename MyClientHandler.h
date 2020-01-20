@@ -10,9 +10,6 @@
 #include "Server.h"
 #include "AlgServer.h"
 #include "MatrixProblem.h"
-#include <mutex>
-
-extern mutex clientLocker;
 
 using namespace server_side;
 
@@ -56,7 +53,6 @@ bool MyClientHandler<P, S>::endsWith(string s1, string s2) {
  */
 template<typename P, typename S>
 void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream *out_put_stream) {
-  clientLocker.lock();
   // reading the problem from the input
   S solution;
   string str = "";
@@ -65,15 +61,17 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
   string endStr2 = "end\n";
   string endStr3 = "end\r";
   string endStr4 = "end\n\r";
+  string endStr5 = "end";
+
   string tmp = input_stream->readFromStream();
 
-  while (!endsWith(endStr1, tmp) && !endsWith(endStr2, tmp) && !endsWith(endStr3, tmp) && !endsWith(endStr4, tmp)) {
+  while (!endsWith(endStr1, tmp) && !endsWith(endStr2, tmp) && !endsWith(endStr3, tmp) && !endsWith(endStr4, tmp)
+      && !endsWith(endStr5, tmp)) {
     str += tmp;
     tmp = input_stream->readFromStream();
   }
 
   // creating the matrix from the string we get from the client
-
   if (this->ch->isExist(str) == 1) {
     // if the solution is available - return it
     cout << "we found the object in cache/disk" << endl;
@@ -88,7 +86,6 @@ void MyClientHandler<P, S>::handleClient(InputStream *input_stream, OutPutStream
 
   // writing the solution to the output
   out_put_stream->writeToStream(solution);
-  clientLocker.unlock();
 }
 
 #endif //EX4__MYCLIENTHANDLER_H_

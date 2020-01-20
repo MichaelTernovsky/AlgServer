@@ -7,6 +7,7 @@
 
 #include "CacheManager.h"
 #include "Solver.h"
+#include <mutex>
 
 template<typename P, typename S>
 class FileCacheManager : public CacheManager<P, S> {
