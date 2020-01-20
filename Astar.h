@@ -110,15 +110,22 @@ class Astar : public Searcher<T, S> {
     State<T> *goalState = searchObj->getGoalState();
     vector<State<T> *> mapOfStates = searchObj->getStates();
     for (auto state:mapOfStates) {
-      //run over all the states.
-      double minX = std::min(state->getI(), goalState->getI());
-      double maxX = std::max(state->getI(), goalState->getI());
-      double minY = std::min(state->getJ(), goalState->getJ());
-      double maxY = std::max(state->getJ(), goalState->getJ());
+      //run over all the states
 
-      double absX = maxX - minX;
-      double absY = maxY - minY;
-      double h = std::max(absX, absY);
+//      double minX = std::min(state->getI(), goalState->getI());
+//      double maxX = std::max(state->getI(), goalState->getI());
+//      double minY = std::min(state->getJ(), goalState->getJ());
+//      double maxY = std::max(state->getJ(), goalState->getJ());
+//
+//      double absX = maxX - minX;
+//      double absY = maxY - minY;
+//      double h = std::max(absX, absY);
+
+      double goalX = goalState->getI();
+      double goalY = goalState->getJ();
+      double stateX = state->getI();
+      double stateY = state->getJ();
+      double h = abs(goalX - stateX) + abs(goalY - stateY);
       state->setHCost(h);
     }
   }
