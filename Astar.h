@@ -15,52 +15,58 @@
 #include "BestFS.h"
 #include <map>
 #include <cmath>
-
+#include <unordered_map>
+#include <unordered_set>
 using namespace std;
 using std::priority_queue;
 
-//Comperator to maintaine a min heap.
 
 template<typename T, typename S>
 
 class Astar : public Searcher<T, S> {
-
+  int visits=0;
   MyPriQueue<State<T> *> OPEN;
-  vector<State<T> *> CLOSED;
+  unordered_map<State<T> *, State<T> *> CLOSED;
 
   S search(Searchable<T> *searchObj) {
+    cout<<"START SEARCH WITH ASTAR"<<endl;
     State<T> *n;
     State<T> *start = searchObj->getInitialState();
     State<T> *gs = searchObj->getGoalState();
     setHeuristic(searchObj);
-    start->setAlgCost(0);
+    start->setAlgCost(start->getValue());
     OPEN.push(start);
     while (!OPEN.empty()) {
+      cout<<"while  SEARCH WITH ASTAR: "<<endl;
+      cout<<visits<<endl;
+      visits++;
       n = OPEN.top(); //remove the best node from OPEN
       OPEN.pop();
-      CLOSED.push_back(n); //we want to check n again.
+      CLOSED[n]=n;
       if (searchObj->isGoalState(n)) {
+        OPEN.clean();
         return (backTrace(n, searchObj));
       }
       vector<State<T> *> successors = searchObj->getAllPossibleStates(n);
       for (State<T> *s:successors) {
 
         double distance = n->getAlgCost() + s->getValue() + s->getHCost();
-
-        if (!this->isExistClosed(searchObj, s) && !OPEN.isExistOPEN(s)) {
-          s->setAlgCost(distance);
+        double newCost = n->getAlgCost() + s->getValue();
+        if ((CLOSED.find(s)==CLOSED.end()) && !OPEN.isExistOPEN(s)) {
+          s->setAlgCost(newCost);
           s->setFather(n);
           //update the cost of s to distance. (made function set algcost.).
           OPEN.push(s);
-        } else if (distance < s->getAlgCost()) {
+        } else if (distance <= s->getAlgCost()+ s->getHCost()) {
           if (!OPEN.isExistOPEN(s)) {
             OPEN.push(s);
           } else {
-            s->setAlgCost(distance);
+            s->setAlgCost(newCost);
             //remove From Queue (c)
-            OPEN = removeFromQ(OPEN, s);
+            removeFromQ(OPEN, s);
             //when node enters to priority queue it updates the heap
             OPEN.push(s);
+
           }
         }
       }
@@ -68,16 +74,8 @@ class Astar : public Searcher<T, S> {
     return "There is no valid path\n";
   }
 
-  MyPriQueue<State<T> *> removeFromQ(MyPriQueue<State<T> *> q, State<T> *s) {
-    MyPriQueue<State<T> *> tmp;
-    while (!q.empty()) {
-      State<T> *x = q.top();
-      q.pop();
-      if (x != s) {
-        tmp.push(x);
-      }
-    }
-    return tmp;
+  void removeFromQ(MyPriQueue<State<T> *> q, State<T> *s) {
+    q.remove(s);
   }
 
   //return the trace to the state
@@ -95,16 +93,6 @@ class Astar : public Searcher<T, S> {
     return searchObj->createSolution(pathLst);
   }
 
-  //check if state is at the vector
-  bool isExistClosed(Searchable<T> *searchObj, State<T> *state) {
-    for (auto s:CLOSED) {
-      if (s->isEqual(state)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   //evaluate the heuristic function with a sort of euqlidic distance.
   void setHeuristic(Searchable<T> *searchObj) {
     State<T> *state;
@@ -112,26 +100,16 @@ class Astar : public Searcher<T, S> {
     vector<State<T> *> mapOfStates = searchObj->getStates();
     for (auto state:mapOfStates) {
       //run over all the states
-//      double minX = std::min(state->getI(), goalState->getI());
-//      double maxX = std::max(state->getI(), goalState->getI());
-//      double minY = std::min(state->getJ(), goalState->getJ());
-//      double maxY = std::max(state->getJ(), goalState->getJ());
-//
-//      double absX = maxX - minX;
-//      double absY = maxY - minY;
-//      double h = std::max(absX, absY);
-
       double goalX = goalState->getI();
       double goalY = goalState->getJ();
       double stateX = state->getI();
       double stateY = state->getJ();
-      double h = abs(goalX - stateX) + abs(goalY - stateY);
-      state->setHCost(h);
+      state->setHCost( int(round(sqrt(pow((stateX - goalX), 2) + pow((stateY - goalY), 2)))));
     }
   }
 
   Searcher<T, S> *createClone() {
-    return new Astar;
+    return new Astar();
   }
 };
 
