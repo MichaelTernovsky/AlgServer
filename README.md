@@ -18,7 +18,7 @@ When running our server using the main supllied by us (for example using our mak
 opened on (in our makefile's run target we pass 5400). After that point, the server will wait infinitly for the first client, and there after wait for a client no longer
 than the 2 minutes.
 
-##Versions
+## Versions
 
 We used [Github](https://github.com/michaeltern/ex4.git) for version control.
 
