@@ -16,7 +16,6 @@ using namespace server_side;
 class MyParallelServer : Server {
 
  private:
-  int isStop = 0;
   int client_socket;
 
  public:
@@ -75,10 +74,6 @@ class MyParallelServer : Server {
       tr.detach();
     }
     this->stop();
-    if (client_socket != -1) {
-      this->stop();
-    }
-
     return 1;
   }
 
@@ -88,10 +83,9 @@ class MyParallelServer : Server {
   }
 
   void stop() {
-    this->isStop = 1;
     close(client_socket); //closing the listening socket
+    exit(0);
   }
-
 };
 
 #endif //EX4__MYSERIALSERVER_H_

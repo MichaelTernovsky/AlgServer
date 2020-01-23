@@ -46,7 +46,9 @@ class BFS : public Searcher<T, S> {
 
           for (int i = 0; i < vct.size(); i++) {
             State<T> *neighbor = vct[i];
-            neighbor->setFather(currState); // update the father
+            if(!isInList(lst, neighbor)) {
+              neighbor->setFather(currState); // update the father
+            }
             stateQueue.push(vct[i]);
           }
         }

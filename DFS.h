@@ -28,7 +28,7 @@ class DFS : public Searcher<T, S> {
       State<T> *initState = searchObj->getInitialState();
       stateStack.push(initState);
 
-      State<T> *currState = NULL;
+      State<T> *currState = nullptr;
       while (!stateStack.empty()) {
         currState = stateStack.top();
         stateStack.pop();
@@ -46,7 +46,9 @@ class DFS : public Searcher<T, S> {
 
           for (int i = 0; i < vct.size(); i++) {
             State<T> *neighbor = vct[i];
-            neighbor->setFather(currState); // update the father
+            if(!isInList(lst, neighbor)) {
+              neighbor->setFather(currState); // update the father
+            }
             stateStack.push(vct[i]);
           }
         }
@@ -54,7 +56,7 @@ class DFS : public Searcher<T, S> {
 
       list<State<T> *> pathLst;
       // finding the way from start state to end state
-      while (currState != NULL && currState->getFather() != NULL) {
+      while (currState != nullptr && currState->getFather() != nullptr) {
         pathLst.push_front(currState);
         currState = currState->getFather();
       }

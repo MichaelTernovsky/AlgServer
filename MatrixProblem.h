@@ -117,7 +117,7 @@ class MatrixProblem : public Searchable<T> {
 
     T val = this->matrixVct[i][j];
 
-    State<T> *initState = getStateByIndex(i,j);
+    State<T> *initState = getStateByIndex(i, j);
 
     return initState;
   }
@@ -155,7 +155,7 @@ class MatrixProblem : public Searchable<T> {
 
     T val = this->matrixVct[i][j];
 
-    State<T> *goalState = getStateByIndex(i,j);
+    State<T> *goalState = getStateByIndex(i, j);
     if (goalState->getValue() == -1) {
       std::cerr << "goal point is -1" << std::endl;
     }
@@ -179,38 +179,38 @@ class MatrixProblem : public Searchable<T> {
     int j = st->getJ();
 
     if ((i == 0 && j == this->colsNum - 1)) {
-      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i,j-1);
-      if (matrixVct[i + 1][j] != -1) state2 = getStateByIndex(i+1,j);;
+      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i, j - 1);
+      if (matrixVct[i + 1][j] != -1) state2 = getStateByIndex(i + 1, j);;
     } else if (i == this->rowNum - 1 && j == 0) {
-      if (matrixVct[i - 1][j] != -1) state1 = getStateByIndex(i-1,j);;
-      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i,j+1);;
+      if (matrixVct[i - 1][j] != -1) state1 = getStateByIndex(i - 1, j);;
+      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i, j + 1);;
     } else if (i == 0 && j == 0) {
-      if (matrixVct[i + 1][j] != -1) state1 = getStateByIndex(i+1,j);;
-      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i,j+1);;
+      if (matrixVct[i + 1][j] != -1) state1 = getStateByIndex(i + 1, j);;
+      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i, j + 1);;
     } else if (i == 0 && j != 0) {
-      if (matrixVct[i][j + 1] != -1) state1 = getStateByIndex(i,j+1);;
-      if (matrixVct[i][j - 1] != -1) state2 = getStateByIndex(i,j-1);;
-      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i+1,j);;
+      if (matrixVct[i][j + 1] != -1) state1 = getStateByIndex(i, j + 1);;
+      if (matrixVct[i][j - 1] != -1) state2 = getStateByIndex(i, j - 1);;
+      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i + 1, j);;
     } else if (i != 0 && j == 0) {
-      if (matrixVct[i + 1][j] != -1) state1 = getStateByIndex(i+1,j);;
-      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i-1,j);;
-      if (matrixVct[i][j + 1] != -1) state3 = getStateByIndex(i,j+1);;
+      if (matrixVct[i + 1][j] != -1) state1 = getStateByIndex(i + 1, j);;
+      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i - 1, j);;
+      if (matrixVct[i][j + 1] != -1) state3 = getStateByIndex(i, j + 1);;
     } else if (i == this->rowNum - 1 && j == this->colsNum - 1) {
-      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i,j-1);;
-      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i-1,j);;
+      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i, j - 1);;
+      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i - 1, j);;
     } else if (i == this->rowNum - 1 && j != this->colsNum - 1) {
-      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i,j-1);;
-      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i,j+1);;
-      if (matrixVct[i - 1][j] != -1) state3 = getStateByIndex(i-1,j);;
+      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i, j - 1);;
+      if (matrixVct[i][j + 1] != -1) state2 = getStateByIndex(i, j + 1);;
+      if (matrixVct[i - 1][j] != -1) state3 = getStateByIndex(i - 1, j);;
     } else if (i != this->rowNum - 1 && j == this->colsNum - 1) {
-      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i,j-1);;
-      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i-1,j);;
-      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i+1,j);;
+      if (matrixVct[i][j - 1] != -1) state1 = getStateByIndex(i, j - 1);;
+      if (matrixVct[i - 1][j] != -1) state2 = getStateByIndex(i - 1, j);;
+      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i + 1, j);;
     } else {
-      if (matrixVct[i - 1][j] != -1) state1 = getStateByIndex(i-1,j);;
-      if (matrixVct[i][j - 1] != -1) state2 = getStateByIndex(i,j-1);;
-      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i+1,j);;
-      if (matrixVct[i][j + 1] != -1)state4 = getStateByIndex(i,j+1);;
+      if (matrixVct[i - 1][j] != -1) state1 = getStateByIndex(i - 1, j);;
+      if (matrixVct[i][j - 1] != -1) state2 = getStateByIndex(i, j - 1);;
+      if (matrixVct[i + 1][j] != -1) state3 = getStateByIndex(i + 1, j);;
+      if (matrixVct[i][j + 1] != -1)state4 = getStateByIndex(i, j + 1);;
     }
 
     if (state1 != NULL) vect.push_back(state1);

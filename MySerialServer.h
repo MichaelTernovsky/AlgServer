@@ -13,7 +13,6 @@ extern int client_socket;
 
 class MySerialServer : Server {
  private:
-  int isStop = 0;
 
  public:
   void runExucteMethosAsThread(int portNum, ClientHandler *client_handler) {
@@ -60,7 +59,6 @@ class MySerialServer : Server {
 
       if (client_socket == -1) {
         std::cerr << "Time out - error accepting client" << std::endl;
-        exit(0);
       }
 
       client_handler->handleClient(new SocketInputStream(client_socket),
@@ -76,8 +74,8 @@ class MySerialServer : Server {
   }
 
   void stop() {
-    this->isStop = 1;
     close(client_socket); //closing the listening socket
+    exit(0);
   }
 };
 
