@@ -1,7 +1,3 @@
-//
-// Created by michael on 09/01/2020.
-//
-
 #include "StringReverser.h"
 
 string StringReverser::solve(string str) {

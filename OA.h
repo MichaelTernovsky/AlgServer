@@ -1,7 +1,3 @@
-//
-// Created by ofir on 16/01/2020.
-//
-
 #ifndef EX4__OA_H_
 #define EX4__OA_H_
 

@@ -1,7 +1,3 @@
-//
-// Created by michael on 16/01/2020.
-//
-
 #ifndef EX4__STATE_H_
 #define EX4__STATE_H_
 
@@ -60,10 +56,10 @@ class State {
     this->algCost = c;
   }
 
-  double getHCost(){
+  double getHCost() {
     return this->Hcost;
   }
-  double setHCost(double hc){
+  double setHCost(double hc) {
     this->Hcost = hc;
   }
 

@@ -1,7 +1,3 @@
-//
-// Created by michael on 17/01/2020.
-//
-
 #ifndef EX4__BFS_H_
 #define EX4__BFS_H_
 
@@ -14,7 +10,7 @@ using namespace std;
 template<typename T, typename S>
 class BFS : public Searcher<T, S> {
   S search(Searchable<T> *searchObj) {
-
+    int visits = 0;
     if (searchObj->getInitialState()->getValue() == -1) {
       std::cerr << "Initial point is -1" << std::endl;
       S str = "Initial point is -1\n";
@@ -30,6 +26,7 @@ class BFS : public Searcher<T, S> {
 
       State<T> *currState = NULL;
       while (!stateQueue.empty()) {
+        visits++;
         currState = stateQueue.front();
         stateQueue.pop();
 
@@ -46,7 +43,7 @@ class BFS : public Searcher<T, S> {
 
           for (int i = 0; i < vct.size(); i++) {
             State<T> *neighbor = vct[i];
-            if(!isInList(lst, neighbor)) {
+            if (!isInList(lst, neighbor)) {
               neighbor->setFather(currState); // update the father
             }
             stateQueue.push(vct[i]);
@@ -65,6 +62,7 @@ class BFS : public Searcher<T, S> {
         pathLst.push_front(initState);
 
       string str = searchObj->createSolution(pathLst);
+      cout << visits << endl;
       return str;
     }
   }

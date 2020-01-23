@@ -1,7 +1,3 @@
-//
-// Created by ofir on 12/01/2020.
-//
-
 #ifndef EX4__ALGSERVER_H_
 #define EX4__ALGSERVER_H_
 

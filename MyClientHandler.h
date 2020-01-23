@@ -1,7 +1,3 @@
-//
-// Created by michael on 16/01/2020.
-//
-
 #ifndef EX4__MYCLIENTHANDLER_H_
 #define EX4__MYCLIENTHANDLER_H_
 

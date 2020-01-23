@@ -1,7 +1,3 @@
-//
-// Created by michael on 16/01/2020.
-//
-
 #ifndef EX4__BESTFS_H_
 #define EX4__BESTFS_H_
 
@@ -13,7 +9,6 @@
 #include <set>
 #include <iterator>
 #include <algorithm>
-
 using namespace std;
 using std::priority_queue;
 
@@ -43,20 +38,20 @@ class MyPriQueue : public priority_queue<A, vector<A>, Comperator> {
     }
     return false;
   }
-  void remove(A s){
-    auto it = std::find(this->c.begin(),this->c.end(), s);
-    if(it != this->c.end()){
+  void remove(A s) {
+    auto it = std::find(this->c.begin(), this->c.end(), s);
+    if (it != this->c.end()) {
       this->c.erase(it);
       this->c.push_back(s);
-      std::make_heap(this->c.begin(),this->c.end(),this->comp);
+      std::make_heap(this->c.begin(), this->c.end(), this->comp);
     }
-}
-
-  void clean(){
-  while(!this->empty()){
-    this->pop();
   }
-}
+
+  void clean() {
+    while (!this->empty()) {
+      this->pop();
+    }
+  }
 };
 
 template<typename T, typename S>
@@ -66,15 +61,19 @@ class BestFS : public Searcher<T, S> {
   vector<State<T> *> CLOSED;
 
   S search(Searchable<T> *searchObj) {
+    int visits = 0;
     State<T> *n;
     State<T> *start = searchObj->getInitialState();
     start->setAlgCost(0);
     OPEN.push(start);
     while (!OPEN.empty()) {
+      visits++;
       n = OPEN.top(); //remove the best node from OPEN
       OPEN.pop();
       CLOSED.push_back(n); //we want to check n again.
       if (searchObj->isGoalState(n)) {
+        cout << "Number of State at The Algo: " << endl;
+        cout << visits << endl;
         return (backTrace(n, searchObj));
       }
       vector<State<T> *> successors = searchObj->getAllPossibleStates(n);

@@ -1,7 +1,3 @@
-//
-// Created by michael on 23/11/2019.
-//
-
 #ifndef EX2__CACHEMANAGER_H_
 #define EX2__CACHEMANAGER_H_
 
