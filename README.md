@@ -1,4 +1,4 @@
-##AlgServer-ex4
+## AlgServer-ex4
 
 Our goal is to host a client at our server and find the "quickest path" for the metrix that the client will input to the program.
 
@@ -23,11 +23,11 @@ than the 2 minutes.
 We used [Github](https://github.com/michaeltern/ex4.git) for version control.
 
 
-##IDE
+## IDE
 
 Clion - Ide by JetBrains
 
-##Authors
+## Authors
 
 - Michael Ternovsky
 - Ofir Ben Ezra
