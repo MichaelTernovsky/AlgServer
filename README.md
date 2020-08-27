@@ -2,7 +2,7 @@
 
 Our goal is to host a client at our server and find the "quickest path" for the matrix that the client will input to the program.
 
-our program is a specific implementation of our Server and Client Handler interfaces
+Our program is a specific implementation of our Server and Client Handler interfaces.
 
 The Server handling various clients at any given moment.
 
