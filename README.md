@@ -31,4 +31,3 @@ Clion - Ide by JetBrains
 
 - Michael Ternovsky
 - Ofir Ben Ezra
-
